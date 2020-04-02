@@ -1,0 +1,15 @@
+little_ship
+ ^
+|#|
+d#b
+sprite
+stealth_ship
+    ^
+I_/XXX\_I
+ /XXXXX\
+ XXXXXXX
+sprite
+double_ship
+ ^  ^
+|#||#|
+d#==#b
