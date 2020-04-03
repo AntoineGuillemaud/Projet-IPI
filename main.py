@@ -18,9 +18,10 @@ import Background
 import Animat
 import Animation
 import spriteLib
+import hudLib
 
 #redimmensionne l'ecran
-sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=35, cols=44))
+sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=38, cols=44))
 
 #interaction clavier
 old_settings = termios.tcgetattr(sys.stdin)
@@ -30,10 +31,11 @@ animat=None
 background = None
 timeStep=None
 animation=None
+hud =None
 
 
 def init():
-	global animat, background, timeStep, animation, film_animation, sprites
+	global animat, background, timeStep, animation, film_animation, sprites, hud
 
 	#initialisation de la partie
 
@@ -42,6 +44,7 @@ def init():
 	# creation des elements du jeu
 	background = Background.create("image.txt")
 	sprites = spriteLib.initSprites("sprite.txt")
+	hud = hudLib.initHUD()
 
 	animat = Animat.create(color=3,
 				direction="right",
@@ -105,7 +108,7 @@ def isData():
 	return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
 def show():
-	global background, animat, animation, timeStep
+	global background, animat, animation, timeStep, hud
 
 	#rafraichissement de l'affichage
 
@@ -121,6 +124,7 @@ def show():
 
 	Animation.show(animation,timeStep)
 	Animation.show(film_animation,timeStep)
+	hudLib.showHUD(hud)
 
 	#restoration couleur
 	sys.stdout.write("\033[37m")
