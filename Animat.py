@@ -22,6 +22,7 @@ def create(color,direction,x,y,speed,sprite):
 	animat["y"]=y
 	animat["speed"]=speed
 	animat["sprite"]=sprite
+	animat["hitbox"]=computeHitbox(animat)
 
 	return animat
 
@@ -49,24 +50,36 @@ def show(a) :
 		y=y+1
 
 
+def computeHitbox(a):
+	sprite = a["sprite"]
+	max_y = len(sprite)
 
+	list_x = []
+	for line in sprite:
+		list_x.append(len(line))
 
+	max_x = max(list_x)
+	hitbox = (max_x,max_y)
+	return hitbox
 
 
 def computeNextPosition(dt,a):
 	#calcul de la position future de l animat en fonction du pas de temps
+	screen_size_x = 44
+	screen_size_y = 35
+
+	hitbox_x , hitbox_y = a["hitbox"]
+
 	x=a["x"]
 	y=a["y"]
-	if a["direction"]=="up":
+	if a["direction"]=="up" and y>3:
 		y=(a["y"]-(a["speed"]*dt))
-	elif a["direction"]=="right":
+	elif a["direction"]=="right" and x+hitbox_x<screen_size_x:
 		x=(a["x"]+(2*a["speed"]*dt))
-	elif a["direction"]=="down":
+	elif a["direction"]=="down" and y+hitbox_y<screen_size_y:
 		y=(a["y"]+(a["speed"]*dt))
-	elif a["direction"]=="left":
+	elif a["direction"]=="left" and x > 3:
 		x=(a["x"]-(2*a["speed"]*dt))
-	elif a["direction"]=="null":
-		x=x
 	return x,y
 
 def setPosition(a,x,y):
@@ -95,6 +108,8 @@ def randomPos(a):
 
 def changeSprite(a,sprite):
 	a["sprite"]=sprite
+	a["hitbox"]=computeHitbox(a)
+
 
 def randomSprite(a,sprites):
 	sprite_name = random.choice(list(sprites.keys()))

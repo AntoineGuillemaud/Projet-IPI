@@ -5,7 +5,7 @@ d#b
 sprite
 stealth_ship
     ^
-I_/XXX\_I
+I_/XXX\_I 
  /XXXXX\
  XXXXXXX
 sprite

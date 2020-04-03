@@ -67,16 +67,8 @@ def move():
 	global animat, timeStep, animation
 	#deplacement Animat
 	x,y=Animat.computeNextPosition(timeStep,animat)
+	Animat.setPosition(animat,x,y)
 
-	if(Background.getChar(background,int(x),int(y))=='A'):
-		#depart animation
-		Animation.setOn(animation)
-		Background.setChar(background,int(x),int(y),' ')
-
-	if(Background.getChar(background,int(x),int(y))==' '):
-		Animat.setPosition(animat,x,y)
-	else:
-		Background.setChar(background,int(x),int(y),'*')
 
 def interact():
 	global animat, background, timeStep, film, film_animation, sprites
@@ -85,6 +77,7 @@ def interact():
 	#si une touche est appuyee
 	if isData():
 		c = sys.stdin.read(1)
+		termios.tcflush(sys.stdin,termios.TCIFLUSH)
 		if c == '\x1b':         # x1b is ESC
 			quitGame()
 		elif c=='c' :
@@ -103,6 +96,9 @@ def interact():
 			Animation.setOn(film_animation)
 		elif c=='v':
 			Animat.randomSprite(animat,sprites)
+	else:
+		Animat.changeDirection(animat,"n")
+
 
 def isData():
 	#recuperation evenement clavier
