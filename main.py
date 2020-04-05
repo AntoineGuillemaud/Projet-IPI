@@ -15,7 +15,7 @@ import termios
 
 #mes modules
 import Background
-import Animat
+import PlayerLib
 import Animation
 import spriteLib
 import hudLib
@@ -27,7 +27,7 @@ sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=38, cols=44))
 old_settings = termios.tcgetattr(sys.stdin)
 
 #donnee du jeu
-animat=None
+player=None
 background = None
 timeStep=None
 animation=None
@@ -35,7 +35,7 @@ hud =None
 
 
 def init():
-	global animat, background, timeStep, animation, film_animation, sprites, hud
+	global player, background, timeStep, animation, film_animation, sprites, hud
 
 	#initialisation de la partie
 
@@ -46,7 +46,7 @@ def init():
 	sprites = spriteLib.initSprites("sprite.txt")
 	hud = hudLib.initHUD()
 
-	animat = Animat.create(color=3,
+	player = PlayerLib.create(color=3,
 				direction="right",
 				x=5.0,
 				y=5.0,
@@ -67,14 +67,14 @@ def init():
 
 
 def move():
-	global animat, timeStep, animation
+	global player, timeStep, animation
 	#deplacement Animat
-	x,y=Animat.computeNextPosition(timeStep,animat)
-	Animat.setPosition(animat,x,y)
+	x,y=PlayerLib.computeNextPosition(timeStep,player)
+	PlayerLib.setPosition(player,x,y)
 
 
 def interact():
-	global animat, background, timeStep, film, film_animation, sprites
+	global player, background, timeStep, film, film_animation, sprites
 	#gestion des evenement clavier
 
 	#si une touche est appuyee
@@ -84,23 +84,23 @@ def interact():
 		if c == '\x1b':         # x1b is ESC
 			quitGame()
 		elif c=='c' :
-			Animat.changeColor(animat)
+			PlayerLib.changeColor(player)
 		elif c=='z' :
-			Animat.changeDirection(animat,"z")
+			PlayerLib.changeDirection(player,"z")
 		elif c=='q' :
-			Animat.changeDirection(animat,"q")
+			PlayerLib.changeDirection(player,"q")
 		elif c=='s' :
-			Animat.changeDirection(animat,"s")
+			PlayerLib.changeDirection(player,"s")
 		elif c=='d' :
-			Animat.changeDirection(animat,"d")
+			PlayerLib.changeDirection(player,"d")
 		elif c=='n' :
-			Animat.randomPos(animat)
+			PlayerLib.randomPos(player)
 		elif c=='f':
 			Animation.setOn(film_animation)
 		elif c=='v':
-			Animat.randomSprite(animat,sprites)
+			PlayerLib.randomSprite(player,sprites)
 	else:
-		Animat.changeDirection(animat,"n")
+		PlayerLib.changeDirection(player,"n")
 
 
 def isData():
@@ -108,7 +108,7 @@ def isData():
 	return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
 def show():
-	global background, animat, animation, timeStep, hud
+	global background, player, animation, timeStep, hud
 
 	#rafraichissement de l'affichage
 
@@ -120,7 +120,7 @@ def show():
 	#affichage des different element
 
 	Background.show(background)
-	Animat.show(animat)
+	PlayerLib.show(player)
 
 	Animation.show(animation,timeStep)
 	Animation.show(film_animation,timeStep)
