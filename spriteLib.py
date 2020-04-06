@@ -24,5 +24,3 @@ def initSprites(filename):
             sprites[sprite_name].append(sprite_line)
 
     return sprites
-
-print(initSprites("sprite.txt"))

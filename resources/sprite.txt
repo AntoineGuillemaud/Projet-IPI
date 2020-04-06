@@ -5,6 +5,7 @@ d#b
 sprite
 stealth_ship
     ^
+   /X\ 
 I_/XXX\_I 
  /XXXXX\
  XXXXXXX
@@ -13,3 +14,7 @@ double_ship
  ^  ^
 |#||#|
 d#==#b
+sprite
+enemy_ship_little
+<X>
+ v 

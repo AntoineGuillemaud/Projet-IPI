@@ -20,11 +20,9 @@ import Animation
 import spriteLib
 import hudLib
 
-#redimmensionne l'ecran
-sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=38, cols=44))
 
-#interaction clavier
-old_settings = termios.tcgetattr(sys.stdin)
+
+
 
 #donnee du jeu
 player=None
@@ -42,9 +40,9 @@ def init():
 	timeStep=0.1
 
 	# creation des elements du jeu
-	background = Background.create("image.txt")
-	sprites = spriteLib.initSprites("sprite.txt")
-	hud = hudLib.initHUD()
+	background = Background.create("resources/image.txt")
+	sprites = spriteLib.initSprites("resources/sprite.txt")
+	hud = hudLib.initHUD_Game()
 
 	player = PlayerLib.create(color=3,
 				direction="right",
@@ -55,15 +53,10 @@ def init():
 
 
 	#animation
-	animation=Animation.create(color=4,x=28,y=8,filename="anim.txt")
-	film_animation=Animation.create(color=4,x=24,y=0,filename="film.txt")
+	animation=Animation.create(color=4,x=28,y=8,filename="resources/anim.txt")
+	film_animation=Animation.create(color=4,x=24,y=0,filename="resources/film.txt")
 
-	# interaction clavier
-	tty.setcbreak(sys.stdin.fileno())
 
-	#effacer la console
-	sys.stdout.write("\033[1;1H")
-	sys.stdout.write("\033[2J")
 
 
 def move():
@@ -157,9 +150,3 @@ def quitGame():
 	sys.exit()
 
 ######################################
-
-init()
-#try:
-run()
-#finally:
-quitGame()
