@@ -25,22 +25,25 @@ def showHUD(hud):
 
 def HUDChangeColor(hud,key,color):
     hud[key]["color"]=color
+    return
+
+def initHUD():
+    hud = dict()
     return hud
 
-
-def initHUD_Game():
-    hud = dict()
+def initHUD_Game(hud):
+    hud.clear()
     hud["vies"] = {"value":0,"pos_x":9,"pos_y":36,"color":1}
     hud["ammo"] = {"value":0,"pos_x":30,"pos_y":36,"color":1}
     hud["special1"] = {"value":0,"pos_x":14,"pos_y":37,"color":1}
     hud["special2"] = {"value":0,"pos_x":35,"pos_y":37,"color":1}
-    return hud
+    return
 
 
-def initHUD_StartMenu():
-    hud = dict()
+def initHUD_StartMenu(hud):
+    hud.clear()
     hud["continuer"] = {"value":"CONTINUER","pos_x":8,"pos_y":17,"color":1}
     hud["nouvelle"] = {"value":"NOUVELLE PARTIE","pos_x":8,"pos_y":20,"color":1}
     hud["charger"] = {"value":"CHARGER","pos_x":8,"pos_y":23,"color":1}
     hud["quitter"] = {"value":"QUITTER","pos_x":8,"pos_y":26,"color":1}
-    return hud
+    return

@@ -12,86 +12,86 @@ import os
 
 def create(color,x,y,filename):
 
-	#creation animat
-	animation=dict()
-	animation["color"]=color
-	animation["x"]=x
-	animation["y"]=y
-	animation["on"]=False
+    #creation animat
+    animation=dict()
+    animation["color"]=color
+    animation["x"]=x
+    animation["y"]=y
+    animation["on"]=False
 
-	#recuperation du film
-	myfile = open(filename, "r")
-	chaine=myfile.read()
+    #recuperation du film
+    myfile = open(filename, "r")
+    chaine=myfile.read()
 
-	#separation des frames
-	frames=chaine.split("frame\n")
+    #separation des frames
+    frames=chaine.split("frame\n")
 
-	animation["frames"]=[]
-	for f in frames:
-		animation["frames"].append(f.split("\n"))
+    animation["frames"]=[]
+    for f in frames:
+        animation["frames"].append(f.split("\n"))
 
-	animation["timeLeft"]=None
-	animation["duration"]=3
+    animation["timeLeft"]=None
+    animation["duration"]=3
 
 
-	return animation
+    return animation
 
 
 def setOn(a,state=True):
-	if(state==True):
-		a["on"]=True
-		a["timeLeft"]=a["duration"]
-	else:
-		a["on"]=False
-		a["timeLeft"]=None
+    if(state==True):
+        a["on"]=True
+        a["timeLeft"]=a["duration"]
+    else:
+        a["on"]=False
+        a["timeLeft"]=None
 
 
 def getOn(a):
-	return(a["on"])
+    return(a["on"])
 
 def getCurrentFrameIndex(a):
-	tl=a["timeLeft"]
-	d=float(a["duration"])
-	nf=float(len(a["frames"]))
+    tl=a["timeLeft"]
+    d=float(a["duration"])
+    nf=float(len(a["frames"]))
 
-	step=d/nf
-	index=int((d-tl)/step)
+    step=d/nf
+    index=int((d-tl)/step)
 
-	if index >(len(a["frames"])-1):
-		index=(len(a["frames"])-1)
-	return index
+    if index >(len(a["frames"])-1):
+        index=(len(a["frames"])-1)
+    return index
 
 def show(a,dt) :
 
-	if(getOn(a)==False):
-		return
+    if(getOn(a)==False):
+        return
 
-	a["timeLeft"]=a["timeLeft"]-dt
+    a["timeLeft"]=a["timeLeft"]-dt
 
-	if a["timeLeft"] <= 0:
-		setOn(a,False)
-		return
+    if a["timeLeft"] <= 0:
+        setOn(a,False)
+        return
 
-	#couleur fond noire
-	sys.stdout.write("\033[40m")
+    #couleur fond noire
+    sys.stdout.write("\033[40m")
 
-	#couleur animation
-	c=a["color"]
-	txt="\033[37m"
-	#txt="\033[3"+str(c%7+1)+"m"
-	sys.stdout.write(txt)
+    #couleur animation
+    c=a["color"]
+    txt="\033[37m"
+    #txt="\033[3"+str(c%7+1)+"m"
+    sys.stdout.write(txt)
 
-	#affichage de la frame
+    #affichage de la frame
 
-	#selectFrame
-	i=getCurrentFrameIndex(a)
+    #selectFrame
+    i=getCurrentFrameIndex(a)
 
-	#pour chaque ligne
-	for j in range(0,len(a["frames"][i])):
-		#on se place a la position de l animat dans le terminal
-		x=str(int(a["x"]))
-		y=str(int(a["y"])+j)
-		txt="\033["+y+";"+x+"H"
-		sys.stdout.write(txt)
+    #pour chaque ligne
+    for j in range(0,len(a["frames"][i])):
+        #on se place a la position de l animat dans le terminal
+        x=str(int(a["x"]))
+        y=str(int(a["y"])+j)
+        txt="\033["+y+";"+x+"H"
+        sys.stdout.write(txt)
 
-		sys.stdout.write(a["frames"][i][j])
+        sys.stdout.write(a["frames"][i][j])
