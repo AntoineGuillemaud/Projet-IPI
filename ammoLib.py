@@ -6,7 +6,7 @@ def create():
     return list_ammo
 
 def clear(list_ammo):
-    list_ammo=dict()
+    list_ammo.clear()
 
 def appendAmmo(list_ammo,type,pos_x,pos_y,speed,side,color,carac1=None,carac2=None):
 
@@ -26,7 +26,7 @@ def appendAmmo(list_ammo,type,pos_x,pos_y,speed,side,color,carac1=None,carac2=No
 def move(list_ammo):
     for ammo in list_ammo:
         if ammo["type"] == "plomb":
-            ammo["pos_x"] = ammo["pos_x"] + 1 * side * speed
+            ammo["pos_y"] = ammo["pos_y"] + 1 * side * speed
     return
 
 

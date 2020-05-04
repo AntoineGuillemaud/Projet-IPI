@@ -66,7 +66,7 @@ def ComputeAndApplyHitbox(player):
     setSomeThing(player,"hitbox",hitbox)
     return
 
-def computeNextPosition(dt,player):
+def computeNextPosition(timeStep,player):
     #calcul de la position future du player en fonction du pas de temps
     screen_size_x = 44
     screen_size_y = 35
@@ -76,13 +76,13 @@ def computeNextPosition(dt,player):
     x=player["x"]
     y=player["y"]
     if player["direction"]=="up" and y>3:
-        y=(player["y"]-(player["speed"]*dt))
+        y=(player["y"]-(player["speed"]*timeStep))
     elif player["direction"]=="right" and x+hitbox_x<screen_size_x:
-        x=(player["x"]+(2*player["speed"]*dt))
+        x=(player["x"]+(2*player["speed"]*timeStep))
     elif player["direction"]=="down" and y+hitbox_y<screen_size_y:
-        y=(player["y"]+(player["speed"]*dt))
+        y=(player["y"]+(player["speed"]*timeStep))
     elif player["direction"]=="left" and x > 3:
-        x=(player["x"]-(2*player["speed"]*dt))
+        x=(player["x"]-(2*player["speed"]*timeStep))
     return x,y
 
 def setPosition(player,x,y):

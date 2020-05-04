@@ -25,6 +25,7 @@ import enemySummonLib
 import levelLib
 import enemyLib
 import enemyDBLib
+import scrollBackgroundLib
 
 
 
@@ -43,17 +44,26 @@ level_list = None
 enemySummonList = None
 scrollLine = None
 enemyDBList = None
+lastScrollTime = None
+scrollBackgroundList = None
+scrollBackground = None
 
 def init():
-    global player, background, timeStep, animation, film_animation, sprites, hud, level, list_ammo, level_list, enemySummonList, scrollLine, enemyDBList
+    global player, background, timeStep, level_length, animation,scrollBackgroundList, scrollBackground, film_animation, enemyList, sprites, hud, level, list_ammo, level_list, enemySummonList,scrollSpeed, scrollLine, enemyDBList, lastScrollTime
 
     #initialisation de la partie
 
     timeStep=0.1
 
     # creation des elements du jeu
-    background = Background.create("resources/image.txt")
+    background = Background.create("resources/bordure.txt")
+
+    scrollBackgroundList = scrollBackgroundLib.init("resources/scrollBackground_file.txt")
+    print(scrollBackgroundList)
+
+
     sprites = spriteLib.initSprites("resources/sprite.txt")
+
     hud = hudLib.initHUD()
     hudLib.initHUD_Game(hud)
 
@@ -65,25 +75,27 @@ def init():
                 sprite=sprites["little_ship"])
 
 
-    #animation
-    animation=Animation.create(color=4,x=28,y=8,filename="resources/anim.txt")
-    film_animation=Animation.create(color=4,x=24,y=0,filename="resources/film.txt")
 
     level = 1
 
+    lastScrollTime = time.time()
+
     scrollLine = 33
+    scrollSpeed = 10
 
     enemyList = enemyLib.initEnemyList()
 
     list_ammo = ammoLib.create()
 
-    level_list = chargeLevel.ChargeLevelIntoRAM(sprites)
+    level_list = chargeLevel.ChargeLevelIntoRAM(sprites,scrollBackgroundList)
+
+    scrollBackground = scrollBackgroundList["level1"]
 
     enemyDBList = enemyDBLib.init(sprites)
 
     enemySummonList = enemySummonLib.init()
 
-    levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine)
+    level_length = levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList)
 
 
 
@@ -129,22 +141,13 @@ def isData():
     return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
 def show():
-    global background, player, animation, timeStep, hud
-
-    #rafraichissement de l'affichage
-
-    #effacer la console
-    # sys.stdout.write("\033[1;1H")
-    # sys.stdout.write("\033[2J")
-
-
-    #affichage des different element
+    global background, player, animation, timeStep, hud,enemyList,level_length,scrollBackground, scrollLine
 
     Background.show(background)
+    scrollBackgroundLib.show(scrollBackground,level_length,scrollLine)
+    enemyLib.show(enemyList,scrollLine)
     PlayerLib.show(player)
 
-    Animation.show(animation,timeStep)
-    Animation.show(film_animation,timeStep)
     hudLib.showHUD(hud)
 
     #restoration couleur
@@ -154,6 +157,24 @@ def show():
     #deplacement curseur
     sys.stdout.write("\033[1;1H\n")
 
+def updateScroll():
+    global scrollLine, lastScrollTime, timeStep, hud, scrollSpeed
+
+    beforeLastScrollTime = lastScrollTime
+
+    lastScrollTime = time.time()
+
+    scrollLine = scrollLine + (lastScrollTime - beforeLastScrollTime) * scrollSpeed * timeStep
+
+    hudLib.HUDChangeSomething(hud,"special1","value",scrollLine)
+
+
+def live():
+    global enemySummonList,enemyList,scrollLine, enemyDBList
+
+    updateScroll()
+    move()
+    enemySummonLib.summonEnemy(enemySummonList,enemyList,scrollLine,enemyDBList)
 
 def run():
     global timeStep
@@ -162,7 +183,7 @@ def run():
     while 1:
         time_start = time.time()
         interact()
-        move()
+        live()
         show()
         time_end = time.time()
         time.sleep(max(0,timeStep - (time_end-time_start)))

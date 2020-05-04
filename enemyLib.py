@@ -6,6 +6,7 @@
 ################
 
 import sys
+import hudLib
 
 def initEnemyList():
     enemyList = list()
@@ -14,11 +15,11 @@ def initEnemyList():
 def clearEnemyList(enemyList):
     enemyList = list()
 
-def initEnemy(enemyList,HP,pos_x,sprite,color,behavior,weapon):
+def initEnemy(enemyList,HP,pos_x,pos_y,sprite,color,behavior,weapon):
     enemy = dict()
     enemy["HP"] = HP
     enemy["pos_x"] = pos_x
-    enemy["pos_y"] = 0
+    enemy["pos_y"] = pos_y
     enemy["sprite"] = sprite
     enemy["color"] = color
     enemy["hitbox"] = computeHitbox(enemy)
@@ -40,11 +41,14 @@ def computeHitbox(enemy):
     hitbox = (max_x,max_y)
     return hitbox
 
-def show(enemyList) :
+
+def show(enemyList,scrollLine):
     for enemy in enemyList:
         x=int(enemy["pos_x"])
         y=int(enemy["pos_y"])
 
+        i=1
+        print_y = scrollLine - y
         #couleur fond noire
         sys.stdout.write("\033[40m")
 
@@ -57,8 +61,8 @@ def show(enemyList) :
         sprite = enemy["sprite"]
 
         for sprite_line in sprite:
-            txt="\033["+str(y)+";"+str(x)+"H"
+            txt="\033["+str(int(print_y+i))+";"+str(x)+"H"
             sys.stdout.write(txt)
 
             sys.stdout.write(sprite_line)
-            y=y+1
+            i=i+1

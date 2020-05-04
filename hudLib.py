@@ -27,6 +27,9 @@ def HUDChangeColor(hud,key,color):
     hud[key]["color"]=color
     return
 
+def HUDChangeSomething(hud,key,param,value):
+    hud[key][param] = value
+
 def initHUD():
     hud = dict()
     return hud

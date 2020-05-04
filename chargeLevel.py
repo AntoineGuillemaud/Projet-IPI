@@ -1,7 +1,7 @@
 import enemyDBLib
 
 
-def ChargeLevelIntoRAM(sprites):
+def ChargeLevelIntoRAM(sprites,scrollBackgroundList):
 
      level_list = list()
 
@@ -12,10 +12,10 @@ def ChargeLevelIntoRAM(sprites):
 
 
      level1 = {
-     "background" : "resources/background_level1.txt",
+     "background" : scrollBackgroundList["level1"],
      "enemySummonList_level" : {
-        50:{"type":"weak","pos_x":20,"behavior":None,"color":1},
-        60:{"type":"weak","pos_x":20,"behavior":None, "color":1}
+        40:{"type":"weak","pos_x":20,"behavior":None,"color":2 , "state":"waiting"},
+        60:{"type":"weak","pos_x":20,"behavior":None,"color":2 , "state":"waiting"}
         },
     "player":{
         "color":4,
@@ -25,10 +25,9 @@ def ChargeLevelIntoRAM(sprites):
         "speed":6.0,
         "sprite":sprites["little_ship"]
         },
-    "length" : 200
+    "length" : 195
      }
      level_list.append(level1)
-
 
 
      return level_list

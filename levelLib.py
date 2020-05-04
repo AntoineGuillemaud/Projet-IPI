@@ -4,13 +4,13 @@ import ammoLib
 import enemyLib
 import enemySummonLib
 
-def changeLevel(level_to_change,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine):
+def changeLevel(level_to_change,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList):
     level = level_to_change
-    clearLevel(player,list_ammo,enemyList,hud,enemySummonList,scrollLine)
-    loadLevel(level,player,hud,level_list,enemySummonList)
-    return level
+    clearLevel(player,list_ammo,enemyList,hud,enemySummonList,scrollLine,scrollBackground)
+    level_length = loadLevel(level,player,hud,level_list,enemySummonList,scrollBackground,scrollBackgroundList)
+    return level_length
 
-def clearLevel(player,list_ammo,enemyList,hud,enemySummonList,scrollLine):
+def clearLevel(player,list_ammo,enemyList,hud,enemySummonList,scrollLine,scrollBackground):
     hudLib.initHUD_Game(hud)
     enemySummonLib.clear(enemySummonList)
     PlayerLib.setPosition(player,5,5)
@@ -20,7 +20,7 @@ def clearLevel(player,list_ammo,enemyList,hud,enemySummonList,scrollLine):
     scrollLine = 33
     return
 
-def loadLevel(level,player,hud,level_list,enemySummonList):
+def loadLevel(level,player,hud,level_list,enemySummonList,scrollBackground,scrollBackgroundList):
 
     level_data = level_list[level]
 
@@ -31,6 +31,8 @@ def loadLevel(level,player,hud,level_list,enemySummonList):
 
     for element in level_data["enemySummonList_level"]:
         enemySummonLib.addElement(enemySummonList,element,level_data["enemySummonList_level"][element])
+
+    scrollBackground = level_data["background"]
 
     level_length = level_data["length"]
 
