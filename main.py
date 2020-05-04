@@ -24,6 +24,7 @@ import chargeLevel
 import enemySummonLib
 import levelLib
 import enemyLib
+import enemyDBLib
 
 
 
@@ -40,9 +41,11 @@ level_length = None
 list_ammo = None
 level_list = None
 enemySummonList = None
+scrollLine = None
+enemyDBList = None
 
 def init():
-    global player, background, timeStep, animation, film_animation, sprites, hud, level, list_ammo, level_list, enemySummonList
+    global player, background, timeStep, animation, film_animation, sprites, hud, level, list_ammo, level_list, enemySummonList, scrollLine, enemyDBList
 
     #initialisation de la partie
 
@@ -68,15 +71,19 @@ def init():
 
     level = 1
 
+    scrollLine = 33
+
     enemyList = enemyLib.initEnemyList()
 
     list_ammo = ammoLib.create()
 
     level_list = chargeLevel.ChargeLevelIntoRAM(sprites)
 
+    enemyDBList = enemyDBLib.init(sprites)
+
     enemySummonList = enemySummonLib.init()
 
-    levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo)
+    levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine)
 
 
 

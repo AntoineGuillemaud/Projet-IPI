@@ -1,9 +1,11 @@
-import enemyDB
+import enemyDBLib
 
 
 def ChargeLevelIntoRAM(sprites):
 
      level_list = list()
+
+
 
      level0={}
      level_list.append(level0)
@@ -12,8 +14,8 @@ def ChargeLevelIntoRAM(sprites):
      level1 = {
      "background" : "resources/background_level1.txt",
      "enemySummonList_level" : {
-        50:enemyDB.summon_weak,
-        60:enemyDB.summon_weak
+        50:{"type":"weak","pos_x":20,"behavior":None,"color":1},
+        60:{"type":"weak","pos_x":20,"behavior":None, "color":1}
         },
     "player":{
         "color":4,
