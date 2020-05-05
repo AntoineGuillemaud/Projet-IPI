@@ -25,7 +25,7 @@ def initEnemy(enemyList,HP,pos_x,pos_y,sprite,color,behavior,weapon):
     enemy["hitbox"] = computeHitbox(enemy)
     enemy["behavior"] = behavior
     enemy["weapon"] = weapon
-    enemy["age"] = 0
+    enemy["on_screen"] = True
     enemyList.append(enemy)
 
 
@@ -44,25 +44,34 @@ def computeHitbox(enemy):
 
 def show(enemyList,scrollLine):
     for enemy in enemyList:
-        x=int(enemy["pos_x"])
-        y=int(enemy["pos_y"])
+        if enemy["on_screen"]==True:
+            x=int(enemy["pos_x"])
+            y=int(enemy["pos_y"])
 
-        i=1
-        print_y = scrollLine - y
-        #couleur fond noire
-        sys.stdout.write("\033[40m")
+            i=2
+            print_y = scrollLine - y
+            #couleur fond noire
+            sys.stdout.write("\033[40m")
 
-        #couleur player
-        color=enemy["color"]
-        txt="\033[3"+str(color%7+1)+"m"
-        sys.stdout.write(txt)
-
-        #affichage du player
-        sprite = enemy["sprite"]
-
-        for sprite_line in sprite:
-            txt="\033["+str(int(print_y+i))+";"+str(x)+"H"
+            #couleur player
+            color=enemy["color"]
+            txt="\033[3"+str(color%7+1)+"m"
             sys.stdout.write(txt)
 
-            sys.stdout.write(sprite_line)
-            i=i+1
+            #affichage du player
+            sprite = enemy["sprite"]
+
+            for sprite_line in sprite:
+                txt="\033["+str(int(print_y+i))+";"+str(x)+"H"
+                sys.stdout.write(txt)
+
+                sys.stdout.write(sprite_line)
+                i=i+1
+
+def killOutOfScreen(enemyList,scrollLine):
+    for enemy in enemyList:
+        y=int(enemy["pos_y"])
+        print_y = scrollLine - y
+        max_x , max_y = enemy["hitbox"]
+        if print_y >= (35 - max_y):
+            enemy["on_screen"] = False

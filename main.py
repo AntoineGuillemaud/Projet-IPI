@@ -69,8 +69,8 @@ def init():
 
     player = PlayerLib.create(color=3,
                 direction="null",
-                x=5.0,
-                y=5.0,
+                x=20.0,
+                y=28.0,
                 speed=6.0,
                 sprite=sprites["little_ship"])
 
@@ -175,6 +175,7 @@ def live():
     updateScroll()
     move()
     enemySummonLib.summonEnemy(enemySummonList,enemyList,scrollLine,enemyDBList)
+    enemyLib.killOutOfScreen(enemyList,scrollLine)
 
 def run():
     global timeStep
