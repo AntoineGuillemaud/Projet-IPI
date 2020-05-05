@@ -104,10 +104,11 @@ def move():
     #deplacement Animat
     x,y=PlayerLib.computeNextPosition(timeStep,player)
     PlayerLib.setPosition(player,x,y)
+    ammoLib.move(list_ammo)
 
 
 def interact():
-    global player, background, timeStep, film, film_animation, sprites
+    global player, background, timeStep, film, film_animation, sprites, hud
     #gestion des evenement clavier
 
     #si une touche est appuyee
@@ -126,12 +127,12 @@ def interact():
             PlayerLib.changeDirection(player,"s")
         elif c=='d' :
             PlayerLib.changeDirection(player,"d")
-        elif c=='n' :
-            PlayerLib.randomPos(player)
-        elif c=='f':
-            Animation.setOn(film_animation)
         elif c=='v':
             PlayerLib.randomSprite(player,sprites)
+        elif c=='r':
+            PlayerLib.switchShootingState(player)
+
+
     else:
         PlayerLib.changeDirection(player,"n")
 
@@ -147,6 +148,9 @@ def show():
     scrollBackgroundLib.show(scrollBackground,level_length,scrollLine)
     enemyLib.show(enemyList,scrollLine)
     PlayerLib.show(player)
+    ammoLib.show(list_ammo,scrollLine)
+    hudLib.HUDChangeSomething(hud,"special2","value",len(list_ammo))
+
 
     hudLib.showHUD(hud)
 
@@ -170,12 +174,14 @@ def updateScroll():
 
 
 def live():
-    global enemySummonList,enemyList,scrollLine, enemyDBList
+    global enemySummonList,enemyList,scrollLine, enemyDBList,player,list_ammo
 
     updateScroll()
     move()
+    PlayerLib.updateShooting(player,list_ammo,scrollLine)
     enemySummonLib.summonEnemy(enemySummonList,enemyList,scrollLine,enemyDBList)
     enemyLib.killOutOfScreen(enemyList,scrollLine)
+    ammoLib.killOutOfScreen(list_ammo,scrollLine)
 
 def run():
     global timeStep

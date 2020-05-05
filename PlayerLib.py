@@ -1,13 +1,9 @@
-################
-# Animat.py    #
-# G.Desmeulles #
-# 23/04/2013   #
-# S2-P MDD     #
-################
 import sys
 import os
 import random
 import Animation
+import ammoLib
+import hudLib
 
 def create(color,direction,x,y,speed,sprite):
 
@@ -19,8 +15,13 @@ def create(color,direction,x,y,speed,sprite):
     player["speed"]=speed
     player["sprite"]=sprite
     player["hitbox"]=computeHitbox(player)
+    player["shooting"]=False
+    player["cooldown"]=0
 
     return player
+
+def switchShootingState(player):
+    player["shooting"]= not player["shooting"]
 
 def show(player) :
 
@@ -112,6 +113,28 @@ def randomPos(player):
 def changeSprite(player,sprite):
     player["sprite"]=sprite
     player["hitbox"]=computeHitbox(player)
+
+def updateShooting(player,list_ammo,scrollLine):
+    cooldown_rate = 0.8
+
+    if (player["cooldown"] == 0.0) and (player["shooting"]):
+        shoot(player,list_ammo,int(scrollLine))
+        print("shooooot")
+        player["cooldown"]=10
+    else:
+        player["cooldown"] = max(0,player["cooldown"]-cooldown_rate)
+
+
+def shoot(player,list_ammo,scrollLine):
+    pos_x = player["x"]
+    pos_y = scrollLine - player["y"]
+
+    speed = 5
+    side = 1
+    color = 7
+
+    ammoLib.appendAmmo(list_ammo,"plomb",pos_x,pos_y,speed,side,color)
+
 
 
 def randomSprite(player,sprites):
