@@ -98,15 +98,6 @@ def init():
     level_length = levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList)
 
 
-
-def move():
-    global player, timeStep, animation
-    #deplacement Animat
-    x,y=PlayerLib.computeNextPosition(timeStep,player)
-    PlayerLib.setPosition(player,x,y)
-    ammoLib.move(list_ammo)
-
-
 def interact():
     global player, background, timeStep, film, film_animation, sprites, hud
     #gestion des evenement clavier
@@ -173,12 +164,21 @@ def updateScroll():
     hudLib.HUDChangeSomething(hud,"special1","value",scrollLine)
 
 
+def move():
+    global player, timeStep, animation
+    #deplacement Animat
+    x,y=PlayerLib.computeNextPosition(timeStep,player)
+    PlayerLib.setPosition(player,x,y)
+    ammoLib.move(list_ammo)
+
+
 def live():
     global enemySummonList,enemyList,scrollLine, enemyDBList,player,list_ammo
 
     updateScroll()
     move()
     PlayerLib.updateShooting(player,list_ammo,scrollLine)
+    ammoLib.impact(list_ammo,enemyList)
     enemySummonLib.summonEnemy(enemySummonList,enemyList,scrollLine,enemyDBList)
     enemyLib.killOutOfScreen(enemyList,scrollLine)
     ammoLib.killOutOfScreen(list_ammo,scrollLine)

@@ -19,13 +19,13 @@ def initEnemy(enemyList,HP,pos_x,pos_y,sprite,color,behavior,weapon):
     enemy = dict()
     enemy["HP"] = HP
     enemy["pos_x"] = pos_x
-    enemy["pos_y"] = pos_y
+    enemy["pos_y"] = pos_y #la position dans le level, pas la position sur l'ecran
     enemy["sprite"] = sprite
     enemy["color"] = color
     enemy["hitbox"] = computeHitbox(enemy)
     enemy["behavior"] = behavior
     enemy["weapon"] = weapon
-    enemy["on_screen"] = True
+    enemy["alive"] = True
     enemyList.append(enemy)
 
 
@@ -41,10 +41,15 @@ def computeHitbox(enemy):
     hitbox = (max_x,max_y)
     return hitbox
 
+def takeDammage(enemy,dammagePoint):
+    enemy["HP"] = max(0,enemy["HP"]-dammagePoint)
+
+    if enemy["HP"] == 0:
+        kill(enemy)
 
 def show(enemyList,scrollLine):
     for enemy in enemyList:
-        if enemy["on_screen"]==True:
+        if enemy["alive"]==True:
             x=int(enemy["pos_x"])
             y=int(enemy["pos_y"])
 
@@ -74,4 +79,7 @@ def killOutOfScreen(enemyList,scrollLine):
         print_y = scrollLine - y
         max_x , max_y = enemy["hitbox"]
         if print_y >= (35 - max_y):
-            enemy["on_screen"] = False
+            enemy["alive"] = False
+
+def kill(enemy):
+    enemy["alive"]=False
