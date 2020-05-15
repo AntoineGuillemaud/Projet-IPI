@@ -1,7 +1,7 @@
 import enemyDBLib
 
 
-def ChargeLevelIntoRAM(sprites,scrollBackgroundList):
+def ChargeLevelIntoRAM(sprites,scrollBackgroundList,Behaviors):
 
      level_list = list()
 
@@ -14,15 +14,15 @@ def ChargeLevelIntoRAM(sprites,scrollBackgroundList):
      level1 = {
      "background" : scrollBackgroundList["level1"],
      "enemySummonList_level" : {
-        40:{"type":"weak","pos_x":10,"behavior":None,"color":2 , "state":"waiting"},
-        42:{"type":"weak","pos_x":20,"behavior":None,"color":2 , "state":"waiting"},
-        44:{"type":"weak","pos_x":30,"behavior":None,"color":2 , "state":"waiting"},
-        46:{"type":"weak","pos_x":15,"behavior":None,"color":2 , "state":"waiting"},
-        48:{"type":"weak","pos_x":25,"behavior":None,"color":2 , "state":"waiting"},
-        50:{"type":"weak","pos_x":35,"behavior":None,"color":2 , "state":"waiting"},
-        52:{"type":"weak","pos_x":21,"behavior":None,"color":2 , "state":"waiting"},
-        54:{"type":"weak","pos_x":7,"behavior":None,"color":2 , "state":"waiting"},
-        60:{"type":"weak","pos_x":17,"behavior":None,"color":2 , "state":"waiting"}
+        40:{"type":"weak","pos_x":10,"behavior":Behaviors["random"],"color":2 , "state":"waiting"},
+        42:{"type":"weak","pos_x":20,"behavior":Behaviors["random"],"color":2 , "state":"waiting"},
+        44:{"type":"weak","pos_x":30,"behavior":Behaviors["random"],"color":2 , "state":"waiting"},
+        46:{"type":"weak","pos_x":15,"behavior":Behaviors["random"],"color":2 , "state":"waiting"},
+        48:{"type":"weak","pos_x":25,"behavior":Behaviors["random"],"color":2 , "state":"waiting"},
+        50:{"type":"weak","pos_x":35,"behavior":Behaviors["random"],"color":2 , "state":"waiting"},
+        52:{"type":"weak","pos_x":21,"behavior":Behaviors["random"],"color":2 , "state":"waiting"},
+        54:{"type":"weak","pos_x":7,"behavior":Behaviors["random"],"color":2 , "state":"waiting"},
+        60:{"type":"weak","pos_x":17,"behavior":Behaviors["random"],"color":2 , "state":"waiting"}
         },
     "player":{
         "color":4,

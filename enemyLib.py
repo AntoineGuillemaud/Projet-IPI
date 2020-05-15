@@ -47,6 +47,17 @@ def takeDammage(enemy,dammagePoint):
     if enemy["HP"] == 0:
         kill(enemy)
 
+def move(enemyList):
+    for enemy in enemyList:
+        enemy["behavior"](enemy)
+
+def move_direction(enemy,direction,step):
+    if direction == -1:
+        enemy["pos_x"]=max(2,enemy["pos_x"] + direction*step)
+    elif direction == 1:
+        hx,hy =enemy["hitbox"]
+        enemy["pos_x"]=min(44-hx,enemy["pos_x"] + direction*step)
+
 def show(enemyList,scrollLine):
     for enemy in enemyList:
         if enemy["alive"]==True:

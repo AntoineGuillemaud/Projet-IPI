@@ -43,13 +43,14 @@ list_ammo = None
 level_list = None
 enemySummonList = None
 scrollLine = None
-enemyDBList = None
+enemy_types = None
+enemy_behaviors = None
 lastScrollTime = None
 scrollBackgroundList = None
 scrollBackground = None
 
 def init():
-    global player, background, timeStep, level_length, animation,scrollBackgroundList, scrollBackground, film_animation, enemyList, sprites, hud, level, list_ammo, level_list, enemySummonList,scrollSpeed, scrollLine, enemyDBList, lastScrollTime
+    global player, background, timeStep, level_length, animation,scrollBackgroundList,enemy_behaviors, scrollBackground, film_animation, enemyList, sprites, hud, level, list_ammo, level_list, enemySummonList,scrollSpeed, scrollLine, enemy_types, lastScrollTime
 
     #initialisation de la partie
 
@@ -87,13 +88,13 @@ def init():
 
     list_ammo = ammoLib.create()
 
-    level_list = chargeLevel.ChargeLevelIntoRAM(sprites,scrollBackgroundList)
-
     scrollBackground = scrollBackgroundList["level1"]
 
-    enemyDBList = enemyDBLib.init(sprites)
+    enemy_types, enemy_behaviors = enemyDBLib.init(sprites)
 
     enemySummonList = enemySummonLib.init()
+
+    level_list = chargeLevel.ChargeLevelIntoRAM(sprites,scrollBackgroundList,enemy_behaviors)
 
     level_length = levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList)
 
@@ -165,21 +166,22 @@ def updateScroll():
 
 
 def move():
-    global player, timeStep, animation
+    global player, timeStep, animation, enemyList
     #deplacement Animat
     x,y=PlayerLib.computeNextPosition(timeStep,player)
     PlayerLib.setPosition(player,x,y)
+    enemyLib.move(enemyList)
     ammoLib.move(list_ammo)
 
 
 def live():
-    global enemySummonList,enemyList,scrollLine, enemyDBList,player,list_ammo
+    global enemySummonList,enemyList,scrollLine, enemy_types,player,list_ammo
 
     updateScroll()
     move()
     PlayerLib.updateShooting(player,list_ammo,scrollLine)
     ammoLib.impact(list_ammo,enemyList)
-    enemySummonLib.summonEnemy(enemySummonList,enemyList,scrollLine,enemyDBList)
+    enemySummonLib.summonEnemy(enemySummonList,enemyList,scrollLine,enemy_types)
     enemyLib.killOutOfScreen(enemyList,scrollLine)
     ammoLib.killOutOfScreen(list_ammo,scrollLine)
 
