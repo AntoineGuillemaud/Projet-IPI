@@ -5,8 +5,11 @@ import random
 def behavior_left_right(enemy):
     enemyLib.move_direction(enemy,1,1)
 
-def behavior_random(enemy):
-    enemyLib.move_direction(enemy,random.randint(0,1)*2-1,1)
+def behavior_random(enemy,scrollLine):
+    enemy_last_move_time = ((scrollLine-enemy["behavior_param"]["last_move"])*enemy["behavior_param"]["speed"])
+    if enemy_last_move_time >= 2.5:
+        enemyLib.move_direction(enemy,random.randint(0,1)*2-1,1)
+        enemy["behavior_param"]["last_move"]=scrollLine
 
 #Init
 def init(sprites):
@@ -16,7 +19,7 @@ def init(sprites):
 
 def init_enemy_types(sprites):
     enemy_types = {
-        "weak": {"HP":1,"sprite":sprites["enemy_ship_weak"],"weapon":None}
+        "weak": {"HP":1,"sprite":sprites["enemy_ship_weak"],"weapon":{"ammo_type":"plomb","cooldown_rate":0.1}}
 
         }
     return enemy_types

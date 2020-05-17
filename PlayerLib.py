@@ -9,6 +9,7 @@ def create(color,direction,x,y,speed,sprite):
 
     player=dict()
     player["color"]=color
+    player["HP"]=5
     player["direction"]=direction
     player["x"]=x
     player["y"]=y
@@ -119,22 +120,20 @@ def updateShooting(player,list_ammo,scrollLine):
 
     if (player["cooldown"] == 0.0) and (player["shooting"]):
         shoot(player,list_ammo,int(scrollLine))
-        print("shooooot")
         player["cooldown"]=10
     else:
         player["cooldown"] = max(0,player["cooldown"]-cooldown_rate)
 
 
 def shoot(player,list_ammo,scrollLine):
-    pos_x = player["x"]
-    pos_y = scrollLine - player["y"]
+    (relativ_pos_x,relativ_pos_y) = player["hitbox"]
+    pos_x = player["x"] + relativ_pos_x/2
+    pos_y = scrollLine - player["y"]+1
 
-    speed = 5
     side = 1
     color = 7
 
-    ammoLib.appendAmmo(list_ammo,"plomb",pos_x,pos_y,speed,side,color)
-
+    ammoLib.appendAmmo(list_ammo,"small_laser",pos_x,pos_y,side,color)
 
 
 def randomSprite(player,sprites):

@@ -10,49 +10,53 @@ def create():
 def clear(list_ammo):
     list_ammo.clear()
 
-def appendAmmo(list_ammo,type,pos_x,pos_y,speed,side,color,carac1=None,carac2=None):
+def appendAmmo(list_ammo,type,pos_x,pos_y,side,color,carac1=None,carac2=None):
 
     ammo = dict()
     ammo["type"]=type
     ammo["pos_x"] = pos_x
     ammo["last_pos_y"] = pos_y
     ammo["pos_y"] = pos_y #la position dans le level, pas la position sur l'ecran
-    ammo["speed"] = speed
     ammo["side"] = side
     ammo["color"] = color
     ammo["carac1"] = carac1
     ammo["carac2"] = carac2
-    ammo["dammagePoint"]=1
     ammo["on_screen"] = True
 
     list_ammo.append(ammo)
     return
 
-def move(list_ammo):
+def move(list_ammo,list_type_ammo):
     for ammo in list_ammo:
-        if (ammo["type"] == "plomb") and (ammo["on_screen"]==True):
-            ammo["pos_y"] = ammo["pos_y"] + 1 * ammo["side"] * ammo["speed"]
+        if ammo["on_screen"]:
+            ammo["last_pos_y"] = ammo["pos_y"]
+            ammo["pos_y"] = ammo["pos_y"] + 1 * ammo["side"] * list_type_ammo[ammo["type"]]["speed"]
     return
 
 def killOutOfScreen(list_ammo,scrollLine):
     for ammo in list_ammo:
         y=int(ammo["pos_y"])
         print_y = scrollLine - y
-        if y> scrollLine:
+        if y> scrollLine or print_y>35:
             ammo["on_screen"] = False
 
-def impact(list_ammo,enemyList):
+def impact(list_ammo,enemyList,list_type_ammo,player,scrollLine):
         for ammo in list_ammo:
             if ammo["on_screen"]:
-                for enemy in enemyList:
-                    if enemy["alive"]:
-                        if isImpact(ammo,enemy):
-                            enemyLib.takeDammage(enemy,ammo["dammagePoint"])
-                            ammo["on_screen"]=False
+                if ammo["side"]==1:
+                    for enemy in enemyList:
+                        if enemy["alive"]:
+                            if isImpactEnemy(ammo,enemy):
+                                enemyLib.takeDammage(enemy,list_type_ammo[ammo["type"]]["dammagePoint"])
+                                ammo["on_screen"]=False
+                if ammo["side"]==-1:
+                    if isImpactAlly(ammo,player,scrollLine):
+                        player["HP"] = player["HP"]-1
+                        ammo["on_screen"]=False
 
-def isImpact(ammo,enemy):
+def isImpactEnemy(ammo,enemy):
     ammo_pos_x = ammo["pos_x"]
-    ammo_last_pos_y = ammo["last_pos_y"]
+    ammo_last_pos_y =  ammo["last_pos_y"]
     ammo_pos_y = ammo["pos_y"]
 
     enemy_pos_x = enemy["pos_x"]
@@ -70,12 +74,30 @@ def isImpact(ammo,enemy):
     return False
 
 
+def isImpactAlly(ammo,player,scrollLine):
+    ammo_pos_x = ammo["pos_x"]
+    ammo_last_pos_y = scrollLine - ammo["last_pos_y"]
+    ammo_pos_y = scrollLine - ammo["pos_y"]
 
-def show(list_ammo,scrollLine):
+    player_pos_x = player["x"]
+    player_pos_y = player["y"]
+    player_hitbox = player["hitbox"]
+    player_hitbox_x,player_hitbox_y=player_hitbox
+
+    if (ammo_pos_x>=player_pos_x-1) and (ammo_pos_x<player_pos_x+player_hitbox_x-1):
+
+        ammo_inside =(ammo_pos_y<player_pos_y) and (ammo_pos_y >player_pos_y+player_hitbox_y)
+        ammo_passed_trought = (ammo_last_pos_y < player_pos_y+player_hitbox_y) and (ammo_pos_y>player_pos_y)
+
+        if (ammo_inside or ammo_passed_trought):
+            return True
+    return False
+
+
+def show(list_ammo,scrollLine,list_type_ammo):
     for ammo in list_ammo:
         if ammo["on_screen"]:
-            if ammo["type"] == "plomb":
-                sprite = ["*"]
+            sprite = list_type_ammo[ammo["type"]]["sprite"]
 
             x=int(ammo["pos_x"])
             y=int(scrollLine) - int(ammo["pos_y"])
@@ -94,3 +116,10 @@ def show(list_ammo,scrollLine):
 
                 sys.stdout.write(sprite_line)
                 y=y+1
+
+def initAmmoDB():
+    list_type_ammo = {
+    "plomb": {"sprite":["*"],"speed":0,"dammagePoint":1},
+    "small_laser":{"sprite":["|"],"speed":5,"dammagePoint":1}
+    }
+    return list_type_ammo

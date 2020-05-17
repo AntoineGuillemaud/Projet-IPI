@@ -48,9 +48,10 @@ enemy_behaviors = None
 lastScrollTime = None
 scrollBackgroundList = None
 scrollBackground = None
+list_type_ammo=None
 
 def init():
-    global player, background, timeStep, level_length, animation,scrollBackgroundList,enemy_behaviors, scrollBackground, film_animation, enemyList, sprites, hud, level, list_ammo, level_list, enemySummonList,scrollSpeed, scrollLine, enemy_types, lastScrollTime
+    global player, background, timeStep, level_length,list_type_ammo, animation,scrollBackgroundList,enemy_behaviors, scrollBackground, film_animation, enemyList, sprites, hud, level, list_ammo, level_list, enemySummonList,scrollSpeed, scrollLine, enemy_types, lastScrollTime
 
     #initialisation de la partie
 
@@ -60,7 +61,6 @@ def init():
     background = Background.create("resources/bordure.txt")
 
     scrollBackgroundList = scrollBackgroundLib.init("resources/scrollBackground_file.txt")
-    print(scrollBackgroundList)
 
 
     sprites = spriteLib.initSprites("resources/sprite.txt")
@@ -87,6 +87,8 @@ def init():
     enemyList = enemyLib.initEnemyList()
 
     list_ammo = ammoLib.create()
+
+    list_type_ammo = ammoLib.initAmmoDB()
 
     scrollBackground = scrollBackgroundList["level1"]
 
@@ -134,16 +136,16 @@ def isData():
     return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
 def show():
-    global background, player, animation, timeStep, hud,enemyList,level_length,scrollBackground, scrollLine
+    global background, player, animation, timeStep, hud,enemyList,level_length,scrollBackground, scrollLine,list_type_ammo
 
     Background.show(background)
     scrollBackgroundLib.show(scrollBackground,level_length,scrollLine)
     enemyLib.show(enemyList,scrollLine)
     PlayerLib.show(player)
-    ammoLib.show(list_ammo,scrollLine)
-    hudLib.HUDChangeSomething(hud,"special2","value",len(list_ammo))
+    ammoLib.show(list_ammo,scrollLine,list_type_ammo)
 
-
+    hudLib.HUDChangeSomething(hud,"vies","value",player["HP"])
+    hudLib.HUDChangeSomething(hud,"special1","value",scrollLine)
     hudLib.showHUD(hud)
 
     #restoration couleur
@@ -166,23 +168,24 @@ def updateScroll():
 
 
 def move():
-    global player, timeStep, animation, enemyList
+    global player, timeStep, animation, enemyList,scrollLine,hud,list_type_ammo
     #deplacement Animat
     x,y=PlayerLib.computeNextPosition(timeStep,player)
     PlayerLib.setPosition(player,x,y)
-    enemyLib.move(enemyList)
-    ammoLib.move(list_ammo)
+    enemyLib.move(enemyList,scrollLine)
+    ammoLib.move(list_ammo,list_type_ammo)
 
 
 def live():
-    global enemySummonList,enemyList,scrollLine, enemy_types,player,list_ammo
+    global enemySummonList,enemyList,scrollLine, enemy_types,player,list_ammo,list_type_ammo
 
     updateScroll()
     move()
     PlayerLib.updateShooting(player,list_ammo,scrollLine)
-    ammoLib.impact(list_ammo,enemyList)
+    ammoLib.impact(list_ammo,enemyList,list_type_ammo,player,scrollLine)
     enemySummonLib.summonEnemy(enemySummonList,enemyList,scrollLine,enemy_types)
     enemyLib.killOutOfScreen(enemyList,scrollLine)
+    enemyLib.updateShooting(enemyList,list_ammo,scrollLine)
     ammoLib.killOutOfScreen(list_ammo,scrollLine)
 
 def run():

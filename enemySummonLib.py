@@ -21,9 +21,11 @@ def summonEnemy(enemySummonList,enemyList,scrollLine,enemy_types):
             sprite = enemy_types[enemySummonList[key]["type"]]["sprite"]
             color =  enemySummonList[key]["color"]
             behavior = enemySummonList[key]["behavior"]
+            behavior_param = enemySummonList[key]["behavior_param"]
             weapon = enemy_types[enemySummonList[key]["type"]]["weapon"]
+            cooldown = enemySummonList[key]["cooldown"]
 
-            enemyLib.initEnemy(enemyList,HP,pos_x,pos_y,sprite,color,behavior,weapon)
+            enemyLib.initEnemy(enemyList,HP,pos_x,pos_y,sprite,color,behavior,behavior_param,weapon,cooldown)
 
             enemySummonList[key]["state"] = "summoned"
 

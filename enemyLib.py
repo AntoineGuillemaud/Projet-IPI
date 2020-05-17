@@ -7,6 +7,7 @@
 
 import sys
 import hudLib
+import ammoLib
 
 def initEnemyList():
     enemyList = list()
@@ -15,7 +16,7 @@ def initEnemyList():
 def clearEnemyList(enemyList):
     enemyList = list()
 
-def initEnemy(enemyList,HP,pos_x,pos_y,sprite,color,behavior,weapon):
+def initEnemy(enemyList,HP,pos_x,pos_y,sprite,color,behavior,behavior_param,weapon,cooldown):
     enemy = dict()
     enemy["HP"] = HP
     enemy["pos_x"] = pos_x
@@ -24,7 +25,9 @@ def initEnemy(enemyList,HP,pos_x,pos_y,sprite,color,behavior,weapon):
     enemy["color"] = color
     enemy["hitbox"] = computeHitbox(enemy)
     enemy["behavior"] = behavior
+    enemy["behavior_param"] = behavior_param
     enemy["weapon"] = weapon
+    enemy["cooldown"] = cooldown
     enemy["alive"] = True
     enemyList.append(enemy)
 
@@ -47,9 +50,31 @@ def takeDammage(enemy,dammagePoint):
     if enemy["HP"] == 0:
         kill(enemy)
 
-def move(enemyList):
+def move(enemyList,scrollLine):
     for enemy in enemyList:
-        enemy["behavior"](enemy)
+        if enemy["alive"]:
+            enemy["behavior"](enemy,scrollLine)
+
+def updateShooting(enemyList,list_ammo,scrollLine):
+    for enemy in enemyList:
+        if enemy["alive"]:
+            cooldown_rate = enemy["weapon"]["cooldown_rate"]
+
+            if (enemy["cooldown"] == 0.0):
+                shoot(enemy,list_ammo,int(scrollLine))
+                enemy["cooldown"]=10
+            else:
+                enemy["cooldown"] = max(0,enemy["cooldown"]-cooldown_rate)
+
+def shoot(enemy,list_ammo,scrollLine):
+    (relativ_pos_x,relativ_pos_y) = enemy["hitbox"]
+    pos_x = enemy["pos_x"] + relativ_pos_x/2
+    pos_y =  enemy["pos_y"]-relativ_pos_y
+
+    side = -1
+    color = 7
+
+    ammoLib.appendAmmo(list_ammo,enemy["weapon"]["ammo_type"],pos_x,pos_y,side,color)
 
 def move_direction(enemy,direction,step):
     if direction == -1:
