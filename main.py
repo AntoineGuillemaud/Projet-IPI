@@ -140,9 +140,9 @@ def show():
 
     Background.show(background)
     scrollBackgroundLib.show(scrollBackground,level_length,scrollLine)
+    ammoLib.show(list_ammo,scrollLine,list_type_ammo)
     enemyLib.show(enemyList,scrollLine)
     PlayerLib.show(player)
-    ammoLib.show(list_ammo,scrollLine,list_type_ammo)
 
     hudLib.HUDChangeSomething(hud,"vies","value",player["HP"])
     hudLib.HUDChangeSomething(hud,"special1","value",scrollLine)
@@ -156,7 +156,7 @@ def show():
     sys.stdout.write("\033[1;1H\n")
 
 def updateScroll():
-    global scrollLine, lastScrollTime, timeStep, hud, scrollSpeed
+    global scrollLine, lastScrollTime, timeStep, hud, scrollSpeed,player
 
     beforeLastScrollTime = lastScrollTime
 
@@ -164,6 +164,7 @@ def updateScroll():
 
     scrollLine = scrollLine + (lastScrollTime - beforeLastScrollTime) * scrollSpeed * timeStep
 
+    hudLib.HUDChangeSomething(hud,"ammo","value",player["y"])
     hudLib.HUDChangeSomething(hud,"special1","value",scrollLine)
 
 
@@ -182,11 +183,11 @@ def live():
     updateScroll()
     move()
     PlayerLib.updateShooting(player,list_ammo,scrollLine)
-    ammoLib.impact(list_ammo,enemyList,list_type_ammo,player,scrollLine)
     enemySummonLib.summonEnemy(enemySummonList,enemyList,scrollLine,enemy_types)
     enemyLib.killOutOfScreen(enemyList,scrollLine)
     enemyLib.updateShooting(enemyList,list_ammo,scrollLine)
     ammoLib.killOutOfScreen(list_ammo,scrollLine)
+    ammoLib.impact(list_ammo,enemyList,list_type_ammo,player,scrollLine)
 
 def run():
     global timeStep

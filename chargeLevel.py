@@ -26,9 +26,9 @@ def ChargeLevelIntoRAM(sprites,scrollBackgroundList,Behaviors):
         60:{"type":"weak","pos_x":17,"behavior":Behaviors["random"],"behavior_param":dict(default_behavior_param),"cooldown":4,"color":2 , "state":"waiting"}
         },
     "player":{
-        "color":4,
+        "color":3,
         "direction":"null",
-        "x":20.0,
+        "x":20.001,
         "y":28.0,
         "speed":6.0,
         "sprite":sprites["little_ship"]

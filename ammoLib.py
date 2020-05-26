@@ -66,8 +66,8 @@ def isImpactEnemy(ammo,enemy):
 
     if (ammo_pos_x>=enemy_pos_x) and (ammo_pos_x<enemy_pos_x+enemy_hitbox_x):
 
-        ammo_inside =(ammo_pos_y<enemy_pos_y) and (ammo_pos_y >enemy_pos_y-enemy_hitbox_y)
-        ammo_passed_trought = (ammo_last_pos_y < enemy_pos_y-enemy_hitbox_y) and (ammo_pos_y>enemy_pos_y)
+        ammo_inside =(ammo_pos_y>=enemy_pos_y) and (ammo_pos_y <enemy_pos_y+enemy_hitbox_y)
+        ammo_passed_trought = (ammo_last_pos_y > enemy_pos_y+enemy_hitbox_y) and (ammo_pos_y<enemy_pos_y)
 
         if (ammo_inside or ammo_passed_trought):
             return True
@@ -75,19 +75,19 @@ def isImpactEnemy(ammo,enemy):
 
 
 def isImpactAlly(ammo,player,scrollLine):
-    ammo_pos_x = ammo["pos_x"]
-    ammo_last_pos_y = scrollLine - ammo["last_pos_y"]
-    ammo_pos_y = scrollLine - ammo["pos_y"]
+    ammo_pos_x = int(ammo["pos_x"])
+    ammo_last_pos_y = int(scrollLine - ammo["last_pos_y"])
+    ammo_pos_y = int(scrollLine - ammo["pos_y"])
 
-    player_pos_x = player["x"]
-    player_pos_y = player["y"]
+    player_pos_x = int(player["x"])
+    player_pos_y = int(player["y"])
     player_hitbox = player["hitbox"]
     player_hitbox_x,player_hitbox_y=player_hitbox
 
-    if (ammo_pos_x>=player_pos_x-1) and (ammo_pos_x<player_pos_x+player_hitbox_x-1):
+    if (ammo_pos_x>=player_pos_x) and (ammo_pos_x<player_pos_x+player_hitbox_x):
 
-        ammo_inside =(ammo_pos_y<player_pos_y) and (ammo_pos_y >player_pos_y+player_hitbox_y)
-        ammo_passed_trought = (ammo_last_pos_y < player_pos_y+player_hitbox_y) and (ammo_pos_y>player_pos_y)
+        ammo_inside =(ammo_pos_y>=player_pos_y) and (ammo_pos_y <player_pos_y+player_hitbox_y)
+        ammo_passed_trought = (ammo_last_pos_y < player_pos_y) and (ammo_pos_y>player_pos_y+player_hitbox_y)
 
         if (ammo_inside or ammo_passed_trought):
             return True
@@ -119,7 +119,7 @@ def show(list_ammo,scrollLine,list_type_ammo):
 
 def initAmmoDB():
     list_type_ammo = {
-    "plomb": {"sprite":["*"],"speed":0,"dammagePoint":1},
+    "plomb": {"sprite":["*"],"speed":2,"dammagePoint":1},
     "small_laser":{"sprite":["|"],"speed":5,"dammagePoint":1}
     }
     return list_type_ammo

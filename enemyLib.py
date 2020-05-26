@@ -60,6 +60,7 @@ def updateShooting(enemyList,list_ammo,scrollLine):
         if enemy["alive"]:
             cooldown_rate = enemy["weapon"]["cooldown_rate"]
 
+
             if (enemy["cooldown"] == 0.0):
                 shoot(enemy,list_ammo,int(scrollLine))
                 enemy["cooldown"]=10
