@@ -6,14 +6,18 @@ import select
 import termios
 import tty
 
+
 startMenuBackground=None
+startMenuHelp=None
 timeStep=None
 hud=None
 curseur =1
+showHelp=True
 
 def init():
-    global startMenuBackground , timeStep, hud
+    global startMenuBackground , timeStep, hud,showHelp,startMenuHelp
     startMenuBackground = Background.create("resources/startMenuBackground.txt")
+    startMenuHelp = Background.create("resources/startMenuHelp.txt")
 
     timeStep=0.1
 
@@ -38,10 +42,13 @@ def run(old_settings):
 
 
 def show():
-    global startMenuBackground, hud
+    global startMenuBackground, hud,showHelp
 
-    Background.show(startMenuBackground)
-    hudLib.showHUD(hud)
+    if showHelp==False:
+        Background.show(startMenuBackground)
+        hudLib.showHUD(hud)
+    if showHelp==True:
+        Background.show(startMenuHelp)
 
     #restoration couleur
     sys.stdout.write("\033[37m")
@@ -52,7 +59,7 @@ def show():
 
 
 def interact(old_settings):
-
+    global showHelp
     isStartMenuActive = True
     #si une touche est appuyee
     if isData():
@@ -60,12 +67,14 @@ def interact(old_settings):
         termios.tcflush(sys.stdin,termios.TCIFLUSH)
         if c == '\x1b':         # x1b is ESC
             quitGame(old_settings)
-        elif c=='z' :
+        elif c=='z' and not showHelp :
             curseurMove("up")
-        elif c=='s' :
+        elif c=='s' and not showHelp:
             curseurMove("down")
-        elif c=='\n' :
+        elif c=='\n' and not showHelp:
             isStartMenuActive = enterPressed(old_settings)
+        elif c=='\n' and showHelp:
+            showHelp=False
     return isStartMenuActive
 
 
@@ -78,7 +87,7 @@ def curseurMove(move_direction):
 
 def curseurChangeColor():
     global curseur, hud
-    codex = {0:"continuer",1:"nouvelle",2:"charger",3:"quitter"}
+    codex = {0:"continuer",1:"nouvelle",2:"comment_jouer",3:"quitter"}
 
     hudLib.HUDChangeColor(hud,codex[0],1)
     hudLib.HUDChangeColor(hud,codex[1],1)
@@ -89,13 +98,13 @@ def curseurChangeColor():
     return
 
 def enterPressed(old_settings):
-    global curseur
+    global curseur,showHelp
     if curseur   ==0:
         return True
     elif curseur ==1:
         return False
     elif curseur ==2:
-        return True
+        showHelp = True
     elif curseur ==3:
         quitGame(old_settings)
 

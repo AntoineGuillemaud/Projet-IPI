@@ -47,6 +47,6 @@ def initHUD_StartMenu(hud):
     hud.clear()
     hud["continuer"] = {"value":"CONTINUER","pos_x":8,"pos_y":17,"color":1}
     hud["nouvelle"] = {"value":"NOUVELLE PARTIE","pos_x":8,"pos_y":20,"color":1}
-    hud["charger"] = {"value":"CHARGER","pos_x":8,"pos_y":23,"color":1}
+    hud["comment_jouer"] = {"value":"COMMENT JOUER","pos_x":8,"pos_y":23,"color":1}
     hud["quitter"] = {"value":"QUITTER","pos_x":8,"pos_y":26,"color":1}
     return

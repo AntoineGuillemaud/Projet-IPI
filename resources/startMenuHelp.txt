@@ -1,0 +1,38 @@
++------------------------------------------+
+|                                          |
+|                                          |
+|            COMMENT JOUER ?               |
+|                                          |
+|                                          |
+|   Vous devez atteindre la fin de chaque  |
+|   niveau en tirant sur les ennemies et   |
+|   en evitant les obstacles               |
+|                                          |
+|                                          |
+|                                          |
+|   LES CONTROLES :                        |
+|       __     __           _______        |
+|      |Z |   |R |         | enter |       |
+|     _|__|___|__|         |__     |       |
+|    |Q |S |D |               |    |       |
+|    |__|__|__|               |____|       |
+|                                          |
+|   Z Q S D : se deplacer dans le jeu      |
+|             et les menus                 |
+|                                          |
+|   R : activer/desactiver l'auto-fire     |
+|                                          |
+|   Enter : Faire un choix dans les menus  |
+|                                          |
+|                                          |
+|                                          |
+|                                          |
+|                                          |
+|                                          |
+|                                          |
+|   Appuyer sur enter pour continuer ...   |
+|                                          |
++------------------------------------------+
+|CREATEURS : Guillemaud antoine            |
+|         ET N**** M******                  |
++------------------------------------------+

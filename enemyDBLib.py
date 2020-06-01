@@ -11,6 +11,9 @@ def behavior_random(enemy,scrollLine):
         enemyLib.move_direction(enemy,random.randint(0,1)*2-1,1)
         enemy["behavior_param"]["last_move"]=scrollLine
 
+def behavior_stay_still(enemy,scrollLine):
+    DoNothing=True
+
 #Init
 def init(sprites):
     enemy_types = init_enemy_types(sprites)
@@ -27,6 +30,7 @@ def init_enemy_types(sprites):
 def init_enemy_behavior():
     enemy_behaviors = {
         "left_right" : behavior_left_right,
-        "random" : behavior_random
+        "random" : behavior_random,
+        "stay_still":behavior_stay_still
         }
     return enemy_behaviors

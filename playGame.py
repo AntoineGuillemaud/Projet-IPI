@@ -1,5 +1,9 @@
-import startMenuLib, main
 import sys
+if list(sys.version)[0]!="3":
+    sys.stdout.write("ERREUR DE VERSION : LA VERSION DE PYTHON DOIT ETRE 3.X , Il est recommande d'installer python 3.8")
+    exit()
+
+import startMenuLib, main
 import termios
 import tty
 

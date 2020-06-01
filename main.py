@@ -26,7 +26,9 @@ import levelLib
 import enemyLib
 import enemyDBLib
 import scrollBackgroundLib
-
+import obstacleLib
+import obstacleSummonLib
+import colisionLib
 
 
 
@@ -49,9 +51,11 @@ lastScrollTime = None
 scrollBackgroundList = None
 scrollBackground = None
 list_type_ammo=None
+obstacle_list=None
+obstacleSummon_list=None
 
 def init():
-    global player, background, timeStep, level_length,list_type_ammo, animation,scrollBackgroundList,enemy_behaviors, scrollBackground, film_animation, enemyList, sprites, hud, level, list_ammo, level_list, enemySummonList,scrollSpeed, scrollLine, enemy_types, lastScrollTime
+    global player, background, timeStep,obstacle_list,obstacleSummon_list, level_length,list_type_ammo, animation,scrollBackgroundList,enemy_behaviors, scrollBackground, film_animation, enemyList, sprites, hud, level, list_ammo, level_list, enemySummonList,scrollSpeed, scrollLine, enemy_types, lastScrollTime
 
     #initialisation de la partie
 
@@ -73,8 +77,11 @@ def init():
                 x=20.0,
                 y=28.0,
                 speed=6.0,
-                sprite=sprites["little_ship"])
-
+                sprite=sprites["little_ship"],
+                ammo_quantity=99,
+                ammo_type="small_laser",
+                HP=5,
+                capacity_1=None)
 
 
     level = 1
@@ -96,9 +103,12 @@ def init():
 
     enemySummonList = enemySummonLib.init()
 
+    obstacle_list = obstacleLib.init()
+    obstacleSummon_list = obstacleSummonLib.init()
+
     level_list = chargeLevel.ChargeLevelIntoRAM(sprites,scrollBackgroundList,enemy_behaviors)
 
-    level_length = levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList)
+    level_length , scrollLine = levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList,obstacle_list,obstacleSummon_list)
 
 
 def interact():
@@ -136,16 +146,18 @@ def isData():
     return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
 def show():
-    global background, player, animation, timeStep, hud,enemyList,level_length,scrollBackground, scrollLine,list_type_ammo
+    global background, player, animation, timeStep, hud,enemyList,level_length,scrollBackground, scrollLine,list_type_ammo,obstacle_list
 
     Background.show(background)
     scrollBackgroundLib.show(scrollBackground,level_length,scrollLine)
     ammoLib.show(list_ammo,scrollLine,list_type_ammo)
+    obstacleLib.show(obstacle_list,scrollLine)
     enemyLib.show(enemyList,scrollLine)
     PlayerLib.show(player)
 
     hudLib.HUDChangeSomething(hud,"vies","value",player["HP"])
     hudLib.HUDChangeSomething(hud,"special1","value",scrollLine)
+    hudLib.HUDChangeSomething(hud,"ammo","value",player["ammo_quantity"])
     hudLib.showHUD(hud)
 
     #restoration couleur
@@ -164,7 +176,6 @@ def updateScroll():
 
     scrollLine = scrollLine + (lastScrollTime - beforeLastScrollTime) * scrollSpeed * timeStep
 
-    hudLib.HUDChangeSomething(hud,"ammo","value",player["y"])
     hudLib.HUDChangeSomething(hud,"special1","value",scrollLine)
 
 
@@ -178,16 +189,24 @@ def move():
 
 
 def live():
-    global enemySummonList,enemyList,scrollLine, enemy_types,player,list_ammo,list_type_ammo
+    global enemySummonList,enemyList,scrollLine, enemy_types,player,list_ammo,list_type_ammo,obstacle_list,obstacleSummon_list,level_length,lenght,hud,level_list,scrollBackground,scrollBackgroundList
 
     updateScroll()
+    if player["HP"]<=0:
+        level_length , scrollLine = levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList,obstacle_list,obstacleSummon_list)
+    if scrollLine>=level_length:
+        level_length , scrollLine = levelLib.changeLevel(level+1,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList,obstacle_list,obstacleSummon_list)
     move()
+    colisionLib.checkColision(player,enemyList,obstacle_list,scrollLine)
     PlayerLib.updateShooting(player,list_ammo,scrollLine)
     enemySummonLib.summonEnemy(enemySummonList,enemyList,scrollLine,enemy_types)
-    enemyLib.killOutOfScreen(enemyList,scrollLine)
+    obstacleSummonLib.summonObstacle(obstacleSummon_list,obstacle_list,scrollLine)
     enemyLib.updateShooting(enemyList,list_ammo,scrollLine)
+    enemyLib.killOutOfScreen(enemyList,scrollLine)
+    obstacleLib.killOutOfScreen(obstacle_list,scrollLine)
     ammoLib.killOutOfScreen(list_ammo,scrollLine)
-    ammoLib.impact(list_ammo,enemyList,list_type_ammo,player,scrollLine)
+    colisionLib.checkColision(player,enemyList,obstacle_list,scrollLine)
+    ammoLib.impact(list_ammo,enemyList,list_type_ammo,player,scrollLine,obstacle_list)
 
 def run():
     global timeStep

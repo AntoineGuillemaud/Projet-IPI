@@ -18,3 +18,12 @@ sprite
 enemy_ship_weak
 <X>
  v
+sprite
+obstacle_small_asteroide
+   _____
+  /     \_
+ /        |
+ |  o     /
+ |        \
+ \      O /
+  \______/

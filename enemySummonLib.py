@@ -5,11 +5,10 @@ def init():
     return enemySummonList
 
 def clear(enemySummonList):
-    enemySummonList=dict()
-    return
+    enemySummonList.clear()
 
 def addElement(enemySummonList,key,value):
-    enemySummonList[key]=value
+    enemySummonList[key]=dict(value)
     return
 
 def summonEnemy(enemySummonList,enemyList,scrollLine,enemy_types):

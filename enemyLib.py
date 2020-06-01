@@ -14,7 +14,7 @@ def initEnemyList():
     return enemyList
 
 def clearEnemyList(enemyList):
-    enemyList = list()
+    enemyList.clear()
 
 def initEnemy(enemyList,HP,pos_x,pos_y,sprite,color,behavior,behavior_param,weapon,cooldown):
     enemy = dict()
@@ -115,7 +115,7 @@ def killOutOfScreen(enemyList,scrollLine):
         y=int(enemy["pos_y"])
         print_y = scrollLine - y
         max_x , max_y = enemy["hitbox"]
-        if print_y >= (35 - max_y):
+        if print_y >= (34 - max_y):
             enemy["alive"] = False
 
 def kill(enemy):

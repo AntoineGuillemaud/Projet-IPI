@@ -6,11 +6,11 @@ import ammoLib
 import hudLib
 
 
-def create(color,direction,x,y,speed,sprite):
+def create(color,direction,x,y,speed,sprite,ammo_quantity,ammo_type,HP,capacity_1):
 
     player=dict()
     player["color"]=color
-    player["HP"]=5
+    player["HP"]=HP
     player["direction"]=direction
     player["x"]=x
     player["y"]=y
@@ -19,6 +19,10 @@ def create(color,direction,x,y,speed,sprite):
     player["hitbox"]=computeHitbox(player)
     player["shooting"]=False
     player["cooldown"]=0
+    player["last_cooldown_scrollLine"]=30
+    player["ammo_quantity"] = ammo_quantity
+    player["ammo_type"]=ammo_type
+    player["capacity_1"]=capacity_1
 
     return player
 
@@ -117,24 +121,29 @@ def changeSprite(player,sprite):
     player["hitbox"]=computeHitbox(player)
 
 def updateShooting(player,list_ammo,scrollLine):
-    cooldown_rate = 0.8
+    cooldown_rate = 10
 
     if (player["cooldown"] == 0.0) and (player["shooting"]):
         shoot(player,list_ammo,int(scrollLine))
         player["cooldown"]=10
     else:
-        player["cooldown"] = max(0,player["cooldown"]-cooldown_rate)
+        player["cooldown"] = max(0,player["cooldown"]-cooldown_rate*(scrollLine-player["last_cooldown_scrollLine"]))
+    player["last_cooldown_scrollLine"]=scrollLine
 
 
 def shoot(player,list_ammo,scrollLine):
     (relativ_pos_x,relativ_pos_y) = player["hitbox"]
-    pos_x = player["x"] + relativ_pos_x/2
+    pos_x = int(player["x"] + relativ_pos_x/2-0.5)
     pos_y = scrollLine - player["y"]+1
 
     side = 1
     color = 7
+    ammo_type=player["ammo_type"]
 
-    ammoLib.appendAmmo(list_ammo,"small_laser",pos_x,pos_y,side,color)
+    if player["ammo_quantity"]>0:
+        player["ammo_quantity"] -=1
+
+    ammoLib.appendAmmo(list_ammo,ammo_type,pos_x,pos_y,side,color)
 
 
 def randomSprite(player,sprites):

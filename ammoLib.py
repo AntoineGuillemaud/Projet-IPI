@@ -8,6 +8,7 @@ def create():
     return list_ammo
 
 def clear(list_ammo):
+    print(list_ammo)
     list_ammo.clear()
 
 def appendAmmo(list_ammo,type,pos_x,pos_y,side,color,carac1=None,carac2=None):
@@ -37,10 +38,10 @@ def killOutOfScreen(list_ammo,scrollLine):
     for ammo in list_ammo:
         y=int(ammo["pos_y"])
         print_y = scrollLine - y
-        if y> scrollLine or print_y>35:
+        if y> scrollLine-1 or print_y>35:
             ammo["on_screen"] = False
 
-def impact(list_ammo,enemyList,list_type_ammo,player,scrollLine):
+def impact(list_ammo,enemyList,list_type_ammo,player,scrollLine,obstacle_list):
         for ammo in list_ammo:
             if ammo["on_screen"]:
                 if ammo["side"]==1:
@@ -53,6 +54,10 @@ def impact(list_ammo,enemyList,list_type_ammo,player,scrollLine):
                     if isImpactAlly(ammo,player,scrollLine):
                         player["HP"] = player["HP"]-1
                         ammo["on_screen"]=False
+                for obstacle in obstacle_list:
+                    if obstacle["alive"]:
+                        if isImpactObstacle(ammo,obstacle):
+                            ammo["on_screen"]=False
 
 def isImpactEnemy(ammo,enemy):
     ammo_pos_x = ammo["pos_x"]
@@ -67,7 +72,7 @@ def isImpactEnemy(ammo,enemy):
     if (ammo_pos_x>=enemy_pos_x) and (ammo_pos_x<enemy_pos_x+enemy_hitbox_x):
 
         ammo_inside =(ammo_pos_y>=enemy_pos_y) and (ammo_pos_y <enemy_pos_y+enemy_hitbox_y)
-        ammo_passed_trought = (ammo_last_pos_y > enemy_pos_y+enemy_hitbox_y) and (ammo_pos_y<enemy_pos_y)
+        ammo_passed_trought = (ammo_pos_y>enemy_pos_y) and (ammo_last_pos_y < enemy_pos_y+enemy_hitbox_y)
 
         if (ammo_inside or ammo_passed_trought):
             return True
@@ -93,6 +98,24 @@ def isImpactAlly(ammo,player,scrollLine):
             return True
     return False
 
+def isImpactObstacle(ammo,obstacle):
+    ammo_pos_x = ammo["pos_x"]
+    ammo_last_pos_y =  ammo["last_pos_y"]
+    ammo_pos_y = ammo["pos_y"]
+
+    obstacle_pos_x = obstacle["pos_x"]
+    obstacle_pos_y = obstacle["pos_y"]
+    obstacle_hitbox_x = obstacle["hitbox"][0]
+    obstacle_hitbox_y = obstacle["hitbox"][1]
+
+    if (ammo_pos_x>=obstacle_pos_x) and (ammo_pos_x<obstacle_pos_x+obstacle_hitbox_x):
+
+        ammo_inside =(ammo_pos_y>=obstacle_pos_y) and (ammo_pos_y <obstacle_pos_y+obstacle_hitbox_y)
+        ammo_passed_trought_a = (ammo_pos_y>obstacle_pos_y) and (ammo_last_pos_y < obstacle_pos_y+obstacle_hitbox_y)
+        ammo_passed_trought_e = (ammo_pos_y<obstacle_pos_y) and (ammo_last_pos_y > obstacle_pos_y+obstacle_hitbox_y)
+
+        if (ammo_inside or ammo_passed_trought_a and ammo_passed_trought_e):
+            return True
 
 def show(list_ammo,scrollLine,list_type_ammo):
     for ammo in list_ammo:
@@ -120,6 +143,8 @@ def show(list_ammo,scrollLine,list_type_ammo):
 def initAmmoDB():
     list_type_ammo = {
     "plomb": {"sprite":["*"],"speed":2,"dammagePoint":1},
-    "small_laser":{"sprite":["|"],"speed":5,"dammagePoint":1}
+    "small_laser":{"sprite":["|"],"speed":5,"dammagePoint":1},
+    "big_plomb_enemy":{"sprite":["V"],"speed":1,"dammagePoint":2},
+    "big_plomb_player":{"sprite":["^"],"speed":1,"dammagePoint":2}
     }
     return list_type_ammo
