@@ -111,7 +111,7 @@ def init():
 
 
 def interact():
-    global player, background, timeStep, film, film_animation, sprites, hud
+    global player, background, timeStep, film, film_animation, sprites, hud,scrollLine
     #gestion des evenement clavier
 
     #si une touche est appuyee
@@ -134,6 +134,8 @@ def interact():
             PlayerLib.randomSprite(player,sprites)
         elif c=='r':
             PlayerLib.switchShootingState(player)
+        elif c=='+':
+            scrollLine+=1
 
 
     else:
