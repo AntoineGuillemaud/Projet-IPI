@@ -16,7 +16,6 @@ def init(filename):
         scrollBackgroundList[scrollBackground_name]=[]
         for scrollBackground_line in scrollBackground_lines:
             scrollBackgroundList[scrollBackground_name].append(scrollBackground_line)
-
     return scrollBackgroundList
 
 def show(scrollBackground,level_length,scrollLine):
@@ -24,14 +23,13 @@ def show(scrollBackground,level_length,scrollLine):
     #couleur fond noire
     sys.stdout.write("\033[40m")
     b=1
-    scrollSpeed = 0.4
+    scrollSpeed = 0.6
 
     txt="\033[3"+str(4)+"m"
     sys.stdout.write(txt)
 
-    for i in range(int(level_length)-int((scrollLine-33)*scrollSpeed)-33,int(level_length)-int((scrollLine-33)*scrollSpeed)):
+    for i in range(int(level_length*scrollSpeed)-int((scrollLine-33)*scrollSpeed)-33,int(level_length*scrollSpeed)-int((scrollLine-33)*scrollSpeed)):
         txt="\033["+str(b+1)+";"+str(2)+"H"
         sys.stdout.write(txt)
-
         sys.stdout.write(scrollBackground[i])
         b=b+1

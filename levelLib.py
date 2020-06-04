@@ -19,7 +19,8 @@ def changeLevel(level_to_change,player,hud,level_list,enemySummonList,enemyList,
     scrollLine = 33
 
     #loading
-    level_data = level_list[level]
+    print(level)
+    level_data = dict(level_list[level])
 
     for key in level_data["player"]:
         PlayerLib.setSomeThing(player,key,level_data["player"][key])
@@ -32,7 +33,8 @@ def changeLevel(level_to_change,player,hud,level_list,enemySummonList,enemyList,
     for element in level_data["obstacleSummonList_level"]:
         obstacleSummonLib.addElement(obstacleSummon_list,element,level_data["obstacleSummonList_level"][element])
 
-    scrollBackground = level_data["background"]
+    for i in range(0,len(level_data["background"])): #C'est vraiment super sale comme facons de faire les choses mais il est 21h57 et on doit rendre le projet a 23h55 donc 
+        scrollBackground[i]=level_data["background"][i]
 
     level_length = level_data["length"]
 

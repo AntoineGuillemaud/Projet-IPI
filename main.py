@@ -96,7 +96,7 @@ def init():
 
     list_type_ammo = ammoLib.initAmmoDB()
 
-    scrollBackground = scrollBackgroundList["level1"]
+    scrollBackground = list(scrollBackgroundList["level1"])
 
     enemy_types, enemy_behaviors = enemyDBLib.init(sprites)
 
@@ -111,7 +111,7 @@ def init():
 
 
 def interact():
-    global player, background, timeStep, film, film_animation, sprites, hud,scrollLine
+    global player, background, timeStep, film, film_animation, sprites, hud,scrollLine,level
     #gestion des evenement clavier
 
     #si une touche est appuyee
@@ -136,6 +136,11 @@ def interact():
             PlayerLib.switchShootingState(player)
         elif c=='+':
             scrollLine+=4
+        elif c=='-':
+            scrollLine+=4000000
+        elif c=='k':
+            print(scrollBackground)
+            exit()
 
 
 
@@ -192,13 +197,14 @@ def move():
 
 
 def live():
-    global enemySummonList,enemyList,scrollLine, enemy_types,player,list_ammo,list_type_ammo,obstacle_list,obstacleSummon_list,level_length,lenght,hud,level_list,scrollBackground,scrollBackgroundList
+    global enemySummonList,enemyList,scrollLine, enemy_types,player,list_ammo,list_type_ammo,obstacle_list,obstacleSummon_list,level_length,lenght,hud,level_list,scrollBackground,scrollBackgroundList,level
 
     updateScroll()
     if player["HP"]<=0:
         level_length , scrollLine = levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList,obstacle_list,obstacleSummon_list)
-    if scrollLine>=level_length:
-        level_length , scrollLine = levelLib.changeLevel(level+1,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList,obstacle_list,obstacleSummon_list)
+    if scrollLine+21>=level_length:
+        level=level+1
+        level_length , scrollLine = levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList,obstacle_list,obstacleSummon_list)
     PlayerLib.updateColor(player)
     move()
     colisionLib.checkColision(player,enemyList,obstacle_list,scrollLine)
