@@ -5,8 +5,10 @@ import hudLib
 import select
 import termios
 import tty
+import cinematic
 
 
+introCinematic=None
 startMenuBackground=None
 startMenuHelp=None
 timeStep=None
@@ -15,15 +17,18 @@ curseur =1
 showHelp=True
 
 def init():
-    global startMenuBackground , timeStep, hud,showHelp,startMenuHelp
+    global startMenuBackground , timeStep, hud,showHelp,startMenuHelp,introCinematic
     startMenuBackground = Background.create("resources/startMenuBackground.txt")
     startMenuHelp = Background.create("resources/startMenuHelp.txt")
+    introCinematic = cinematic.create("resources/cinematic.txt")
 
     timeStep=0.1
 
     hud = hudLib.initHUD()
     hudLib.initHUD_StartMenu(hud)
 
+
+    cinematic.showEntireCinematic(introCinematic)
 
 def close():
     return
