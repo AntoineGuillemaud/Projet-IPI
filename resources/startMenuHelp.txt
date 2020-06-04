@@ -12,7 +12,7 @@
 |                                          |
 |   LES CONTROLES :                        |
 |       __     __           _______        |
-|      |Z |   |R |         | enter |       |
+|      |Z |   |R |         | Entree|       |
 |     _|__|___|__|         |__     |       |
 |    |Q |S |D |               |    |       |
 |    |__|__|__|               |____|       |
@@ -22,7 +22,7 @@
 |                                          |
 |   R : activer/desactiver l'auto-fire     |
 |                                          |
-|   Enter : Faire un choix dans les menus  |
+|   Entree : Faire un choix dans les menus |
 |                                          |
 |                                          |
 |                                          |
@@ -30,9 +30,9 @@
 |                                          |
 |                                          |
 |                                          |
-|   Appuyer sur enter pour continuer ...   |
+|   Appuyer sur Entree pour continuer ...  |
 |                                          |
 +------------------------------------------+
 |CREATEURS : Guillemaud antoine            |
-|         ET N**** M******                  |
+|         ET N**** M******                 |
 +------------------------------------------+

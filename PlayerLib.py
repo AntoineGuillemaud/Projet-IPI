@@ -1,7 +1,6 @@
 import sys
 import os
 import random
-import Animation
 import ammoLib
 import hudLib
 
@@ -10,6 +9,7 @@ def create(color,direction,x,y,speed,sprite,ammo_quantity,ammo_type,HP,capacity_
 
     player=dict()
     player["color"]=color
+    player["default_color"]=color
     player["HP"]=HP
     player["direction"]=direction
     player["x"]=x
@@ -55,6 +55,13 @@ def show(player) :
 def setSomeThing(player,key,value):
     player[key]=value
     return
+
+def takeDammage(player,dammagePoint):
+    player["HP"]=max(player["HP"]-dammagePoint,0)
+    player["color"]=0
+
+def updateColor(player):
+    player["color"]=player["default_color"]
 
 def computeHitbox(player):
     sprite = player["sprite"]

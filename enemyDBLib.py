@@ -22,7 +22,7 @@ def init(sprites):
 
 def init_enemy_types(sprites):
     enemy_types = {
-        "weak": {"HP":1,"sprite":sprites["enemy_ship_weak"],"weapon":{"ammo_type":"plomb","cooldown_rate":0.1}}
+        "weak": {"HP":1,"sprite":sprites["enemy_ship_weak"],"weapon":{"ammo_type":"big_laser_boss","cooldown_rate":0.1}}
 
         }
     return enemy_types

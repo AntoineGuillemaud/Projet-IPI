@@ -32,12 +32,12 @@ def ChargeLevelIntoRAM(sprites,scrollBackgroundList,Behaviors):
         "sprite":sprites["little_ship"],
         "ammo_quantity":99,
         "ammo_type":"small_laser",
-        "HP":5,
+        "HP":10,
         "capacity_1":None,
         "shooting":False,
         "last_cooldown_scrollLine":33
         },
-    "length" : 195
+    "length" : 98
      }
      level_list.append(level1)
 

@@ -1,4 +1,5 @@
 import sys
+import PlayerLib
 import enemyLib
 
 def create():
@@ -34,11 +35,11 @@ def move(list_ammo,list_type_ammo):
             ammo["pos_y"] = ammo["pos_y"] + 1 * ammo["side"] * list_type_ammo[ammo["type"]]["speed"]
     return
 
-def killOutOfScreen(list_ammo,scrollLine):
+def killOutOfScreen(list_ammo,scrollLine,list_type_ammo):
     for ammo in list_ammo:
         y=int(ammo["pos_y"])
         print_y = scrollLine - y
-        if y> scrollLine-1 or print_y>35:
+        if y> scrollLine-1 or print_y+len(list_type_ammo[ammo["type"]])>36:
             ammo["on_screen"] = False
 
 def impact(list_ammo,enemyList,list_type_ammo,player,scrollLine,obstacle_list):
@@ -52,7 +53,7 @@ def impact(list_ammo,enemyList,list_type_ammo,player,scrollLine,obstacle_list):
                                 ammo["on_screen"]=False
                 if ammo["side"]==-1:
                     if isImpactAlly(ammo,player,scrollLine):
-                        player["HP"] = player["HP"]-1
+                        PlayerLib.takeDammage(player,1)
                         ammo["on_screen"]=False
                 for obstacle in obstacle_list:
                     if obstacle["alive"]:
@@ -145,6 +146,7 @@ def initAmmoDB():
     "plomb": {"sprite":["*"],"speed":2,"dammagePoint":1},
     "small_laser":{"sprite":["|"],"speed":5,"dammagePoint":1},
     "big_plomb_enemy":{"sprite":["V"],"speed":1,"dammagePoint":2},
-    "big_plomb_player":{"sprite":["^"],"speed":1,"dammagePoint":2}
+    "big_plomb_player":{"sprite":["^"],"speed":1,"dammagePoint":2},
+    "big_laser_boss":{"sprite":["¦¦","¦¦","¦¦"],"speed":0.5,"dammagePoint":2}
     }
     return list_type_ammo

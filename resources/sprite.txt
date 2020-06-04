@@ -15,15 +15,24 @@ double_ship
 |#||#|
 d#==#b
 sprite
-enemy_ship_weak
+enemy_ship_weak_X
 <X>
  v
 sprite
 obstacle_small_asteroide
-   _____
-  /     \_
- /        |
- |  o     /
- |        \
- \      O /
-  \______/
+  _____
+ /     \_
+/        |
+|  o     /
+|        \
+\      O /
+ \______/
+sprite
+enemy_ship_weak
+ ┌┴┐  ┌┴──┴┐  ┌┴┐
+ \ \──┤ ┬┬ ├──/ /
+  \ \ │ ││ │ / /
+   \ \┴┐╠╣┌┴/ /
+    ┬┘ │║║│ └┬
+       │║║│
+       ╚╬╬╝

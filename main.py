@@ -16,7 +16,6 @@ import termios
 #mes modules
 import Background
 import PlayerLib
-import Animation
 import spriteLib
 import hudLib
 import ammoLib
@@ -72,7 +71,7 @@ def init():
     hud = hudLib.initHUD()
     hudLib.initHUD_Game(hud)
 
-    player = PlayerLib.create(color=3,
+    player = PlayerLib.create(color=1,
                 direction="null",
                 x=20.0,
                 y=28.0,
@@ -80,7 +79,7 @@ def init():
                 sprite=sprites["little_ship"],
                 ammo_quantity=99,
                 ammo_type="small_laser",
-                HP=5,
+                HP=10,
                 capacity_1=None)
 
 
@@ -196,6 +195,7 @@ def live():
         level_length , scrollLine = levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList,obstacle_list,obstacleSummon_list)
     if scrollLine>=level_length:
         level_length , scrollLine = levelLib.changeLevel(level+1,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList,obstacle_list,obstacleSummon_list)
+    PlayerLib.updateColor(player)
     move()
     colisionLib.checkColision(player,enemyList,obstacle_list,scrollLine)
     PlayerLib.updateShooting(player,list_ammo,scrollLine)
@@ -204,7 +204,7 @@ def live():
     enemyLib.updateShooting(enemyList,list_ammo,scrollLine)
     enemyLib.killOutOfScreen(enemyList,scrollLine)
     obstacleLib.killOutOfScreen(obstacle_list,scrollLine)
-    ammoLib.killOutOfScreen(list_ammo,scrollLine)
+    ammoLib.killOutOfScreen(list_ammo,scrollLine,list_type_ammo)
     colisionLib.checkColision(player,enemyList,obstacle_list,scrollLine)
     ammoLib.impact(list_ammo,enemyList,list_type_ammo,player,scrollLine,obstacle_list)
 

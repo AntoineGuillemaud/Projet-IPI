@@ -29,7 +29,7 @@ def show(scrollBackground,level_length,scrollLine):
     txt="\033[3"+str(4)+"m"
     sys.stdout.write(txt)
 
-    for i in range(int(level_length)-int(scrollLine*scrollSpeed),int(level_length)-int(scrollLine*scrollSpeed)+33):
+    for i in range(int(level_length)-int((scrollLine-33)*scrollSpeed)-33,int(level_length)-int((scrollLine-33)*scrollSpeed)):
         txt="\033["+str(b+1)+";"+str(2)+"H"
         sys.stdout.write(txt)
 
