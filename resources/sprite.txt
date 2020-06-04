@@ -15,7 +15,7 @@ double_ship
 |#||#|
 d#==#b
 sprite
-enemy_ship_weak_X
+enemy_ship_weak
 <X>
  v
 sprite
@@ -28,7 +28,7 @@ obstacle_small_asteroide
 \      O /
  \______/
 sprite
-enemy_ship_weak
+final_boss
  ┌┴┐  ┌┴──┴┐  ┌┴┐
  \ \──┤ ┬┬ ├──/ /
   \ \ │ ││ │ / /
