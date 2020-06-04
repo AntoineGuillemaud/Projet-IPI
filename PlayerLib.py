@@ -150,6 +150,7 @@ def shoot(player,list_ammo,scrollLine):
     if player["ammo_quantity"]>0:
         player["ammo_quantity"] -=1
 
+
     ammoLib.appendAmmo(list_ammo,ammo_type,pos_x,pos_y,side,color)
 
 

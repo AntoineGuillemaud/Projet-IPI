@@ -51,8 +51,13 @@ def impact(list_ammo,enemyList,list_type_ammo,player,scrollLine,obstacle_list):
                             if isImpactEnemy(ammo,enemy):
                                 enemyLib.takeDammage(enemy,list_type_ammo[ammo["type"]]["dammagePoint"])
                                 ammo["on_screen"]=False
-                if ammo["side"]==-1:
-                    if isImpactAlly(ammo,player,scrollLine):
+                if ammo["side"]==-1 and not ammo["type"]=="big_laser_boss":
+                    if isImpactAlly(ammo,player,scrollLine,int(ammo["pos_x"])):
+                        PlayerLib.takeDammage(player,1)
+                        ammo["on_screen"]=False
+                if  ammo["side"]==-1 and ammo["type"]=="big_laser_boss":
+                    impact_bool = isImpactAlly(ammo,player,scrollLine,int(ammo["pos_x"])) or isImpactAlly(ammo,player,scrollLine,int(ammo["pos_x"]+1))
+                    if impact_bool:
                         PlayerLib.takeDammage(player,1)
                         ammo["on_screen"]=False
                 for obstacle in obstacle_list:
@@ -80,8 +85,7 @@ def isImpactEnemy(ammo,enemy):
     return False
 
 
-def isImpactAlly(ammo,player,scrollLine):
-    ammo_pos_x = int(ammo["pos_x"])
+def isImpactAlly(ammo,player,scrollLine,ammo_pos_x):
     ammo_last_pos_y = int(scrollLine - ammo["last_pos_y"])
     ammo_pos_y = int(scrollLine - ammo["pos_y"])
 
@@ -111,11 +115,11 @@ def isImpactObstacle(ammo,obstacle):
 
     if (ammo_pos_x>=obstacle_pos_x) and (ammo_pos_x<obstacle_pos_x+obstacle_hitbox_x):
 
-        ammo_inside =(ammo_pos_y>=obstacle_pos_y) and (ammo_pos_y <obstacle_pos_y+obstacle_hitbox_y)
-        ammo_passed_trought_a = (ammo_pos_y>obstacle_pos_y) and (ammo_last_pos_y < obstacle_pos_y+obstacle_hitbox_y)
-        ammo_passed_trought_e = (ammo_pos_y<obstacle_pos_y) and (ammo_last_pos_y > obstacle_pos_y+obstacle_hitbox_y)
+        ammo_inside =(ammo_pos_y>=obstacle_pos_y-obstacle_hitbox_y) and (ammo_pos_y <obstacle_pos_y)#ca devrait pas fonctionner comme ca, mais ca fonctionne... donc ¯\_(ツ)_/¯
+        # ammo_passed_trought_a = (ammo_pos_y>obstacle_pos_y) and (ammo_last_pos_y < obstacle_pos_y+obstacle_hitbox_y)
+        # ammo_passed_trought_e = (ammo_pos_y<obstacle_pos_y) and (ammo_last_pos_y > obstacle_pos_y+obstacle_hitbox_y)
 
-        if (ammo_inside or ammo_passed_trought_a and ammo_passed_trought_e):
+        if (ammo_inside):# or ammo_passed_trought_a or ammo_passed_trought_e):
             return True
 
 def show(list_ammo,scrollLine,list_type_ammo):
