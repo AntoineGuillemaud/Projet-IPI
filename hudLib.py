@@ -37,9 +37,9 @@ def initHUD():
 def initHUD_Game(hud):
     hud.clear()
     hud["vies"] = {"value":0,"pos_x":9,"pos_y":36,"color":1}
-    hud["ammo"] = {"value":0,"pos_x":30,"pos_y":36,"color":1}
-    hud["special1"] = {"value":0,"pos_x":14,"pos_y":37,"color":1}
-    hud["special2"] = {"value":0,"pos_x":35,"pos_y":37,"color":1}
+    hud["ammo"] = {"value":0,"pos_x":31,"pos_y":36,"color":1}
+    hud["niveau"] = {"value":0,"pos_x":11,"pos_y":37,"color":1}
+    hud["score"] = {"value":380502,"pos_x":26,"pos_y":37,"color":1}
     return
 
 

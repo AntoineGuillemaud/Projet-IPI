@@ -135,7 +135,8 @@ def interact():
         elif c=='r':
             PlayerLib.switchShootingState(player)
         elif c=='+':
-            scrollLine+=1
+            scrollLine+=4
+
 
 
     else:
@@ -147,7 +148,7 @@ def isData():
     return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
 def show():
-    global background, player, animation, timeStep, hud,enemyList,level_length,scrollBackground, scrollLine,list_type_ammo,obstacle_list
+    global background, player, animation, timeStep, hud,enemyList,level_length,scrollBackground, scrollLine,list_type_ammo,obstacle_list,level
 
     Background.show(background)
     scrollBackgroundLib.show(scrollBackground,level_length,scrollLine)
@@ -157,8 +158,11 @@ def show():
     PlayerLib.show(player)
 
     hudLib.HUDChangeSomething(hud,"vies","value",player["HP"])
-    hudLib.HUDChangeSomething(hud,"special1","value",scrollLine)
+    hudLib.HUDChangeSomething(hud,"niveau","value",level)
     hudLib.HUDChangeSomething(hud,"ammo","value",player["ammo_quantity"])
+    hudLib.HUDChangeSomething(hud,"score","value",str(int(player["x"]))+","+str(int(scrollLine-player["y"])))
+    int(scrollLine-player["y"])
+    #hudLib.HUDChangeSomething(hud,"score","value",player["score"])
     hudLib.showHUD(hud)
 
     #restoration couleur
@@ -176,8 +180,6 @@ def updateScroll():
     lastScrollTime = time.time()
 
     scrollLine = scrollLine + (lastScrollTime - beforeLastScrollTime) * scrollSpeed * timeStep
-
-    hudLib.HUDChangeSomething(hud,"special1","value",scrollLine)
 
 
 def move():

@@ -49,7 +49,7 @@ def impact(list_ammo,enemyList,list_type_ammo,player,scrollLine,obstacle_list):
                     for enemy in enemyList:
                         if enemy["alive"]:
                             if isImpactEnemy(ammo,enemy):
-                                enemyLib.takeDammage(enemy,list_type_ammo[ammo["type"]]["dammagePoint"])
+                                enemyLib.takeDammage(enemy,list_type_ammo[ammo["type"]]["dammagePoint"],player)
                                 ammo["on_screen"]=False
                 if ammo["side"]==-1:
                     if isImpactAlly(ammo,player,scrollLine):

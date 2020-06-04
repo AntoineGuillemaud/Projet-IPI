@@ -8,6 +8,7 @@
 import sys
 import hudLib
 import ammoLib
+import PlayerLib
 
 def initEnemyList():
     enemyList = list()
@@ -16,7 +17,7 @@ def initEnemyList():
 def clearEnemyList(enemyList):
     enemyList.clear()
 
-def initEnemy(enemyList,HP,pos_x,pos_y,sprite,color,behavior,behavior_param,weapon,cooldown):
+def initEnemy(enemyList,HP,pos_x,pos_y,sprite,color,behavior,behavior_param,weapon,cooldown,score_value):
     enemy = dict()
     enemy["HP"] = HP
     enemy["pos_x"] = pos_x
@@ -29,6 +30,7 @@ def initEnemy(enemyList,HP,pos_x,pos_y,sprite,color,behavior,behavior_param,weap
     enemy["weapon"] = weapon
     enemy["cooldown"] = cooldown
     enemy["alive"] = True
+    enemy["score_value"]=score_value
     enemyList.append(enemy)
 
 
@@ -44,11 +46,11 @@ def computeHitbox(enemy):
     hitbox = (max_x,max_y)
     return hitbox
 
-def takeDammage(enemy,dammagePoint):
+def takeDammage(enemy,dammagePoint,player):
     enemy["HP"] = max(0,enemy["HP"]-dammagePoint)
 
     if enemy["HP"] == 0:
-        kill(enemy)
+        kill(enemy,player)
 
 def move(enemyList,scrollLine):
     for enemy in enemyList:
@@ -116,7 +118,8 @@ def killOutOfScreen(enemyList,scrollLine):
         print_y = scrollLine - y
         max_x , max_y = enemy["hitbox"]
         if print_y >= (34 - max_y):
-            enemy["alive"] = False
+            enemy["alive"]=False
 
-def kill(enemy):
+def kill(enemy,player):
     enemy["alive"]=False
+    PlayerLib.ChangeScore(player,enemy["score_value"])

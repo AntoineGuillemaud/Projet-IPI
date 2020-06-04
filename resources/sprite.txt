@@ -20,8 +20,7 @@ enemy_ship_weak
  v
 sprite
 obstacle_small_asteroide
-  _____
- /     \_
+ /¯¯¯¯¯\_
 /        |
 |  o     /
 |        \
@@ -36,3 +35,69 @@ final_boss
     ┬┘ │║║│ └┬
        │║║│
        ╚╬╬╝
+sprite
+obstacle_scrap
+|¯|-|¯\
+| __  /
+/ \_\  \__
+/         \
+|___--____|
+sprite
+obtacle_broken_ship
+   _/¯|              /--/
+ _/ / ├------\  \---/  /
+/ /   | o   _/ _/    _
+\_\   |   o/  /   / //
+  \_\ ├----/  /__/
+    \_|
+sprite
+obstacle_a_cube
+  ____
+.'  .'|
+|¯¯¯| |
+|___|.'
+sprite
+obstacle_asteroid_1
+|¯¯\__      |¯|
+|     \_   _/ /
+/ O     \_/o /
+\           /
+\__  () ___/
+   \___/
+sprite
+obstacle_asteroid_2
+ __/¯¯¯¯|
+/  O    │
+│     * /
+\______/
+sprite
+obstacle_asteroid_3
+ __/¯¯¯¯|
+/  _  '_|
+│ (_) /
+\____/
+sprite
+obstacle_asteroid_4
+/¯¯|
+\__/
+sprite
+obstacle_asteroid_5
+/¯¯õ¯\
+\____/
+sprite
+obstacle_asteroid_6
+ ___/¯¯¯\
+/      -│
+│  c    |
+\_______/
+sprite
+obstacle_asteroid_7
+ _
+(_)o
+sprite
+obstacle_asteroid_8
+/¯\ /¯¯\
+|  V O  \
+│ o      )
+\_______/
+sprite

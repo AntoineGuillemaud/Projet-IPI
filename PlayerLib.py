@@ -23,8 +23,12 @@ def create(color,direction,x,y,speed,sprite,ammo_quantity,ammo_type,HP,capacity_
     player["ammo_quantity"] = ammo_quantity
     player["ammo_type"]=ammo_type
     player["capacity_1"]=capacity_1
+    player["score"]=0
 
     return player
+
+def ChangeScore(player,score_changement):
+    player["score"]=max(0,player["score"]+score_changement)
 
 def switchShootingState(player):
     player["shooting"]= not player["shooting"]
