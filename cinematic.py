@@ -52,8 +52,3 @@ def showEntireCinematic(cinematic) :
         time.sleep(cinematic["timeStep"])
 
     return
-
-if __name__ == '__main__':
-    test = create("resources/cinematic.txt")
-    showEntireCinematic(test)
-#    showFrame(test, 2)

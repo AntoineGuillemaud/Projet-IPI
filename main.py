@@ -130,17 +130,8 @@ def interact():
             PlayerLib.changeDirection(player,"s")
         elif c=='d' :
             PlayerLib.changeDirection(player,"d")
-        elif c=='v':
-            PlayerLib.randomSprite(player,sprites)
         elif c=='r':
             PlayerLib.switchShootingState(player)
-        elif c=='+':
-            scrollLine+=4
-        elif c=='-':
-            scrollLine+=4000000
-        elif c=='k':
-            print(scrollBackground)
-            exit()
 
 
 
@@ -165,9 +156,7 @@ def show():
     hudLib.HUDChangeSomething(hud,"vies","value",player["HP"])
     hudLib.HUDChangeSomething(hud,"niveau","value",level)
     hudLib.HUDChangeSomething(hud,"ammo","value",player["ammo_quantity"])
-    hudLib.HUDChangeSomething(hud,"score","value",str(int(player["x"]))+","+str(int(scrollLine-player["y"])))
-    int(scrollLine-player["y"])
-    #hudLib.HUDChangeSomething(hud,"score","value",player["score"])
+    hudLib.HUDChangeSomething(hud,"score","value",player["score"])
     hudLib.showHUD(hud)
 
     #restoration couleur
@@ -203,14 +192,16 @@ def live():
     if player["HP"]<=0:
         level_length , scrollLine = levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList,obstacle_list,obstacleSummon_list)
     if scrollLine+21>=level_length:
-        level=level+1
-        level_length , scrollLine = levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList,obstacle_list,obstacleSummon_list)
+        #level=level+1   #malheureusement pas eu le temps pour d'autres niveaux
+        #level_length , scrollLine = levelLib.changeLevel(level,player,hud,level_list,enemySummonList,enemyList,list_ammo,scrollLine,scrollBackground,scrollBackgroundList,obstacle_list,obstacleSummon_list)
+        print("Le jeu est fini")
+        quitGame()
     PlayerLib.updateColor(player)
     move()
     colisionLib.checkColision(player,enemyList,obstacle_list,scrollLine)
     PlayerLib.updateShooting(player,list_ammo,scrollLine)
     enemySummonLib.summonEnemy(enemySummonList,enemyList,scrollLine,enemy_types)
-    obstacleSummonLib.summonObstacle(obstacleSummon_list,obstacle_list,scrollLine)
+    obstacleSummonLib.summonObstacle(obstacleSummon_list,obstacle_list,scrollLine,level)
     enemyLib.updateShooting(enemyList,list_ammo,scrollLine)
     enemyLib.killOutOfScreen(enemyList,scrollLine)
     obstacleLib.killOutOfScreen(obstacle_list,scrollLine)

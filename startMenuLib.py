@@ -27,8 +27,9 @@ def init():
     hud = hudLib.initHUD()
     hudLib.initHUD_StartMenu(hud)
 
-
     cinematic.showEntireCinematic(introCinematic)
+
+    termios.tcflush(sys.stdin,termios.TCIFLUSH)
 
 def close():
     return

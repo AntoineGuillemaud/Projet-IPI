@@ -55,11 +55,6 @@ def impact(list_ammo,enemyList,list_type_ammo,player,scrollLine,obstacle_list):
                     if isImpactAlly(ammo,player,scrollLine,int(ammo["pos_x"])):
                         PlayerLib.takeDammage(player,1)
                         ammo["on_screen"]=False
-                if  ammo["side"]==-1 and ammo["type"]=="big_laser_boss":
-                    impact_bool = isImpactAlly(ammo,player,scrollLine,int(ammo["pos_x"])) or isImpactAlly(ammo,player,scrollLine,int(ammo["pos_x"]+1))
-                    if impact_bool:
-                        PlayerLib.takeDammage(player,1)
-                        ammo["on_screen"]=False
                 for obstacle in obstacle_list:
                     if obstacle["alive"]:
                         if isImpactObstacle(ammo,obstacle):
