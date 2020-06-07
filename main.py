@@ -1,10 +1,3 @@
-################
-# main.c       #
-# G.Desmeulles #
-# 23/04/2013   #
-# S2-P MDD     #
-################
-
 #modules externes
 import sys
 import os

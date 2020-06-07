@@ -1,14 +1,8 @@
-################
-# Background   #
-# G.Desmeulles #
-# 23/04/2013   #
-# S2-P MDD     #
-################
 import sys
 import os
 
-#le module background gere le type abstrait de donnee background 
-#un background contient une chaine de caractere qui represente 
+#le module background gere le type abstrait de donnee background
+#un background contient une chaine de caractere qui represente
 #une image de fond d ecran
 
 
@@ -18,21 +12,21 @@ def create(filename):
 
     #ouverture fichier
     myfile = open(filename, "r")
-        
+
     chaine=myfile.read()
 
     #separation des lignes
     listeLignes=chaine.splitlines()
-    
+
     bg["map"]=[]
-    
+
     #transformation en liste de liste
     for line in listeLignes:
         listeChar=list(line)
         bg["map"].append(listeChar)
-    
+
     myfile.close()
-        
+
     return bg
 
 def getChar(bg,x,y):
@@ -44,13 +38,13 @@ def setChar(bg,x,y,c):
     bg["map"][y-1][x-1]=c
 
 
-def show(bg) : 
+def show(bg) :
 
     #couleur fond
     sys.stdout.write("\033[40m")
     #couleur white
     sys.stdout.write("\033[37m")
-    
+
     #goto
     for y in range(0,len(bg["map"])):
         for x in range(0,len(bg["map"][y])):
@@ -58,7 +52,3 @@ def show(bg) :
             sys.stdout.write(s)
             #affiche
             sys.stdout.write(bg["map"][y][x])
-
-
-
-    
